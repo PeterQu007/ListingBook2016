@@ -152,6 +152,12 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="PivotTableCities.cs" />
+    <Compile Include="Library.cs" />
+    <Compile Include="PivotTableListingStatus.cs" />
+    <Compile Include="ReportCMA.cs" />
+    <Compile Include="ReportMonthlyAttached.cs" />
+    <Compile Include="ReportMonthlyDetached.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
