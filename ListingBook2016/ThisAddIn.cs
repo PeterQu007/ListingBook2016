@@ -11,13 +11,28 @@ namespace ListingBook2016
 {
     public partial class ThisAddIn
     {
+        private SQLEdit _tpSqlEdit;
+        public Microsoft.Office.Tools.CustomTaskPane TpSqlEditCustomTaskPane;
         private void ThisAddIn_Startup(object sender, System.EventArgs e)
         {
+            AddTpSqlEdit();
         }
 
         private void ThisAddIn_Shutdown(object sender, System.EventArgs e)
         {
         }
+
+        //Create the Custom TaskPane and Dock Bottom
+        //You must Add your Control here
+        private void AddTpSqlEdit()
+        {
+            _tpSqlEdit = new SQLEdit();
+            TpSqlEditCustomTaskPane = CustomTaskPanes.Add(_tpSqlEdit, "SQL Editor");
+            TpSqlEditCustomTaskPane.DockPosition = Office.MsoCTPDockPosition.msoCTPDockPositionBottom;
+            //Show TaskPane
+            TpSqlEditCustomTaskPane.Visible = true;
+        }
+
 
         #region VSTO generated code
 
