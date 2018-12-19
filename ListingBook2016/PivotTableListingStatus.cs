@@ -87,17 +87,17 @@ namespace ListingBook2016
                 pvt.PivotFields("Unit#").Name = "Unit No";
             }
 
-            pvt.AddDataField(pvt.PivotFields("MLS#"), "Count", Excel.XlConsolidationFunction.xlCount);
-            pvt.AddDataField(pvt.PivotFields("Price"), "Sold Price", Excel.XlConsolidationFunction.xlAverage);
+            pvt.AddDataField(pvt.PivotFields("MLS"), "Count", Excel.XlConsolidationFunction.xlCount);
+            pvt.AddDataField(pvt.PivotFields("Price"), Type.Missing, Excel.XlConsolidationFunction.xlAverage);
             pvt.AddDataField(pvt.PivotFields("DOM"), "Days On Mkt", Excel.XlConsolidationFunction.xlAverage);
             pvt.AddDataField(pvt.PivotFields("TotFlArea"), "Floor Area", Excel.XlConsolidationFunction.xlAverage);
-            pvt.AddDataField(pvt.PivotFields("Price Per SQFT"), "$PSF", Excel.XlConsolidationFunction.xlAverage);
+            pvt.AddDataField(pvt.PivotFields("PrcSqft"), "$PSF", Excel.XlConsolidationFunction.xlAverage);
             pvt.AddDataField(pvt.PivotFields("Age"), "Building Age", Excel.XlConsolidationFunction.xlAverage);
             pvt.AddDataField(pvt.PivotFields("StratMtFee"), "Monthly Fee", Excel.XlConsolidationFunction.xlAverage);
             pvt.AddDataField(pvt.PivotFields("BCAValue"), "BC Assess.", Excel.XlConsolidationFunction.xlAverage);
             pvt.AddDataField(pvt.PivotFields("Change%"), "Chg% to BCA", Excel.XlConsolidationFunction.xlAverage);
 
-            pvt.PivotFields("Sold Price").NumberFormat = "$#,##0";
+            pvt.PivotFields("Price").NumberFormat = "$#,##0";
             pvt.PivotFields("Days On Mkt").NumberFormat = "0";
             pvt.PivotFields("Floor Area").NumberFormat = "0";
             pvt.PivotFields("$PSF").NumberFormat = "$#,##0";
@@ -308,15 +308,24 @@ namespace ListingBook2016
             Cell = TableSheet.Range["A" + medianRow];
             Cell.Value2 = "Median Values";
 
-            TableSheet.Cells[medianRow, rw + 1].Value = Library.GetCount(ListingSheet, "B", Status, "", "");
-            TableSheet.Cells[medianRow, rw + 2].Value = Library.GetMedianValue(ListingSheet, "G", Status, "", "");
-            TableSheet.Cells[medianRow, rw + 3].Value = Library.GetMedianValue(ListingSheet, "I", Status, "", "");
-            TableSheet.Cells[medianRow, rw + 4].Value = Library.GetMedianValue(ListingSheet, "L", Status, "", "");
-            TableSheet.Cells[medianRow, rw + 5].Value = Library.GetMedianValue(ListingSheet, "M", Status, "", "");
-            TableSheet.Cells[medianRow, rw + 6].Value = Library.GetMedianValue(ListingSheet, "O", Status, "", "");
-            TableSheet.Cells[medianRow, rw + 7].Value = Library.GetMedianValue(ListingSheet, "P", Status, "", "");
-            TableSheet.Cells[medianRow, rw + 8].Value = Library.GetMedianValue(ListingSheet, "R", Status, "", "");
-            TableSheet.Cells[medianRow, rw + 9].Value = Library.GetMedianValue(ListingSheet, "S", Status, "", "");
+            //TOTAL LISITNGS COUNT
+            TableSheet.Cells[medianRow, rw + 1].Value = Library.GetCount(ListingSheet, ListingDataColNames.MLS, Status, "", "");
+            //PRICE 
+            TableSheet.Cells[medianRow, rw + 2].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.Price, Status, "", "");
+            //DAYS ON MARKET DOM OR CDOM
+            TableSheet.Cells[medianRow, rw + 3].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.DOM, Status, "", "");
+            //
+            TableSheet.Cells[medianRow, rw + 4].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.FlArTotFin, Status, "", "");
+            //
+            TableSheet.Cells[medianRow, rw + 5].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.PrcSqft, Status, "", "");
+            //
+            TableSheet.Cells[medianRow, rw + 6].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.Age, Status, "", "");
+            //
+            TableSheet.Cells[medianRow, rw + 7].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.StratMtFee, Status, "", "");
+            //
+            TableSheet.Cells[medianRow, rw + 8].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.BCAValue, Status, "", "");
+            //
+            TableSheet.Cells[medianRow, rw + 9].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.Change_Percent, Status, "", "");
 
             TableSheet.Select();
             lastCol = pvt.TableRange1.Columns.Count;

@@ -20,25 +20,96 @@ namespace ListingBook2016
         {
             AllCities = 2,
             AllCommunities = 3,
-            AllNeighborhoods =4
+            AllNeighborhoods = 4
         }
     }
     public enum ListingStatus
     {
         Sold = 0,
-        Active =1,
+        Active = 1,
         Expire = 2,
-        Terminate =3,
-        Cancel =4,
-        OffMarket =5
+        Terminate = 3,
+        Cancel = 4,
+        OffMarket = 5
     }
- 
+
     public enum ReportDataSheet
     {
         ParagonExport = 0,
         MLSHelperExport = 1
     }
 
+    public static class ListingDataColNames
+    {
+        public static string No = "A";
+        public static string MLS = "B";
+        public static string Status = "C";
+        public static string Address = "D";
+        public static string S_A = "E";
+        public static string Price = "F";
+        public static string PrcSqft = "G";
+        public static string List_Date = "H";
+        public static string DOM = "I";
+        public static string CDOM = "J";
+        public static string Complex_Subdivision = "K";
+        public static string Tot_BR = "L";
+        public static string Tot_Baths = "M";
+        public static string FlArTotFin = "N";
+        public static string Age = "O";
+        public static string StratMtFee = "P";
+        public static string TypeDwel = "Q";
+        public static string Lot_Sz_Sq_Ft = "R";
+        public static string PID = "S";
+        public static string LandValue = "T";
+        public static string ImproveValue = "U";
+        public static string BCAValue = "V";
+        public static string Change_Percent = "W";
+        public static string Room27Dim1 = "X";
+        public static string Address2 = "Y";
+        public static string UnitNo = "Z";
+        public static string City = "AA";
+        public static string Area = "AB";
+        public static string Postal_Code = "AC";
+        public static string List_Price = "AD";
+        public static string Prev_Price = "AE";
+        public static string Price_Date = "AF";
+        public static string Sold_Date = "AG";
+        public static string Sold_Price = "AH";
+        public static string SP_Sqft = "AI";
+        public static string Processed_Date = "AJ";
+        public static string Entry_Date = "AK";
+        public static string Expiry_Date = "AL";
+        public static string CDOMLS = "AM";
+        public static string Search_Date = "AN";
+        public static string SP_LP_Ratio = "AO";
+        public static string SP_OLP_Ratio = "AP";
+        public static string Yr_Blt = "AQ";
+        public static string TotFlArea = "AR";
+        public static string Kitchens = "AS";
+        public static string Lot_Sz_Acres = "AT";
+        public static string Frontage_Feet = "AU";
+        public static string Depth = "AV";
+        public static string Prop_Type = "AW";
+        public static string Room27Type = "AX";
+        public static string Parking_Places_Covered = "AY";
+        public static string Legal_Description = "AZ";
+        public static string Title_to_Land = "BA";
+        public static string Units_in_Development = "BB";
+        public static string Stories_in_Building = "BC";
+        public static string Rentals_Allowed = "BD";
+        public static string TotalPrkng = "BE";
+        public static string Locker = "BF";
+        public static string List_Firm_1_Code_Office_Name = "BG";
+        public static string List_Sales_Rep_1_Agent_Name = "BH";
+        public static string List_Firm_2_Code_Office_Name = "BI";
+        public static string List_Sales_Rep_2_Agent_Name = "BJ";
+        public static string Selling_Office_1_Office_Name = "BK";
+        public static string Sell_Sales_Rep_1_Agent_Name = "BL";
+        public static string Selling_Office_2_Office_Name_ = "BM";
+        public static string Sell_Sales_Rep_2_Agent_Name = "BN";
+        public static string Owner_Name = "BO";
+        public static string Buyer = "BP";
+    }
     public class DataProcessing
     {
 
@@ -52,12 +123,12 @@ namespace ListingBook2016
         public bool ValidateData_Attached()
         {
             bool bStop = false;
-            Globals.ThisAddIn.Application.ScreenUpdating = false;
-            Globals.ThisAddIn.Application.DisplayAlerts = false;
+            //Globals.ThisAddIn.Application.ScreenUpdating = false;
+            //Globals.ThisAddIn.Application.DisplayAlerts = false;
             Globals.ThisAddIn.Application.DisplayStatusBar = true;
 
             Excel.Range rng = null;
-            rng = this.ListingSheet.Cells[1, "V"];
+            rng = this.ListingSheet.Cells[1, ListingDataColNames.UnitNo];
             rng.Select();
 
             if (!rng.Value2.StartsWith("Unit"))
@@ -73,22 +144,22 @@ namespace ListingBook2016
             }
 
             //VALIDATE COMPLEX.NAME
-            bStop |= ValidateColumnBlankCell("F");
+            bStop |= ValidateColumnBlankCell(ListingDataColNames.Complex_Subdivision);
             //VALIDATE MAINT.FEE
-            bStop |= ValidateColumnZeroValue("P");
+            bStop |= ValidateColumnZeroValue(ListingDataColNames.StratMtFee);
             //VALIDATE AGE
-            bStop |= ValidateColumnAge("O");
+            bStop |= ValidateColumnAge(ListingDataColNames.Age);
             //VALIDATE BCA.VALUE
-            bStop |= ValidateColumnBlankCell("R");
-            bStop |= ValidateColumnZeroValue("R");
+            bStop |= ValidateColumnBlankCell(ListingDataColNames.BCAValue);
+            bStop |= ValidateColumnZeroValue(ListingDataColNames.BCAValue);
             //VALIDATE CHANGE%
-            bStop |= ValidateColumnBlankCell("S");
+            bStop |= ValidateColumnBlankCell(ListingDataColNames.Change_Percent);
             //VALIDATE ADDRESS
-            bStop |= ValidateColumnBlankCell("U");
+            bStop |= ValidateColumnBlankCell(ListingDataColNames.Address2);
 
             Globals.ThisAddIn.Application.StatusBar = "Validate Data of Attached Done!";
-            Globals.ThisAddIn.Application.ScreenUpdating = true;
-            Globals.ThisAddIn.Application.DisplayAlerts = true;
+            //Globals.ThisAddIn.Application.ScreenUpdating = true;
+            //Globals.ThisAddIn.Application.DisplayAlerts = true;
             return bStop;
         }
         public bool ValidateColumnBlankCell(string ColIndex)

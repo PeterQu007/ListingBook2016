@@ -45,11 +45,11 @@
             this.button1 = this.Factory.CreateRibbonButton();
             this.button2 = this.Factory.CreateRibbonButton();
             this.group4 = this.Factory.CreateRibbonGroup();
-            this.group5 = this.Factory.CreateRibbonGroup();
-            this.group6 = this.Factory.CreateRibbonGroup();
             this.button3 = this.Factory.CreateRibbonButton();
             this.button4 = this.Factory.CreateRibbonButton();
             this.button5 = this.Factory.CreateRibbonButton();
+            this.group5 = this.Factory.CreateRibbonGroup();
+            this.group6 = this.Factory.CreateRibbonGroup();
             this.btmCondoSold = this.Factory.CreateRibbonButton();
             this.btnCondoActive = this.Factory.CreateRibbonButton();
             this.btnCondoCMA = this.Factory.CreateRibbonButton();
@@ -134,19 +134,6 @@
             this.group4.Label = "Detached CMA";
             this.group4.Name = "group4";
             // 
-            // group5
-            // 
-            this.group5.Label = "Townhouse CMA";
-            this.group5.Name = "group5";
-            // 
-            // group6
-            // 
-            this.group6.Items.Add(this.btmCondoSold);
-            this.group6.Items.Add(this.btnCondoActive);
-            this.group6.Items.Add(this.btnCondoCMA);
-            this.group6.Label = "Condo CMA";
-            this.group6.Name = "group6";
-            // 
             // button3
             // 
             this.button3.Label = "Sold";
@@ -161,6 +148,19 @@
             // 
             this.button5.Label = "CMA";
             this.button5.Name = "button5";
+            // 
+            // group5
+            // 
+            this.group5.Label = "Townhouse CMA";
+            this.group5.Name = "group5";
+            // 
+            // group6
+            // 
+            this.group6.Items.Add(this.btmCondoSold);
+            this.group6.Items.Add(this.btnCondoActive);
+            this.group6.Items.Add(this.btnCondoCMA);
+            this.group6.Label = "Condo CMA";
+            this.group6.Name = "group6";
             // 
             // btmCondoSold
             // 
@@ -178,6 +178,7 @@
             // 
             this.btnCondoCMA.Label = "CMA";
             this.btnCondoCMA.Name = "btnCondoCMA";
+            this.btnCondoCMA.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnCondoCMA_Click);
             // 
             // Ribbon1
             // 

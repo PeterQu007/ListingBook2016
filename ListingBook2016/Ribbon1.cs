@@ -44,5 +44,13 @@ namespace ListingBook2016
             bool bCMA = true;
             cma.Condo(ListingStatus.Active, bCMA);
         }
+
+        private void btnCondoCMA_Click(object sender, RibbonControlEventArgs e)
+        {
+            ReportCMA cma = new ReportCMA(Globals.ThisAddIn.Application.Worksheets["Listings Table"]);
+            bool bCMA = true;
+            cma.Condo(ListingStatus.Sold, bCMA);
+            cma.Condo(ListingStatus.Active, bCMA);
+        }
     }
 }
