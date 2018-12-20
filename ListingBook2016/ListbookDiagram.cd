@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="ListingBook2016.ListingDataColNames" Collapsed="true">
+    <Position X="2.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>JCABGgBsCZAQCScoAkEQAECYEiKoCdQyBBAAIcDCEQA=</HashCode>
+      <FileName>Library.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ListingBook2016.DataProcessing" Collapsed="true">
+    <Position X="4.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAIQAAAAAAAAAAAgAAAAAUA=</HashCode>
+      <FileName>Library.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ListingBook2016.Library" Collapsed="true">
+    <Position X="0.75" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABwAAAAAQAABAAAAAAAQABAEAgAAAAIgMAAEABAQAAA=</HashCode>
+      <FileName>Library.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ListingBook2016.PivotTableCities" Collapsed="true">
+    <Position X="0.75" Y="6" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAMAAAwQAgCAACAzAAAAAAQAAGg=</HashCode>
+      <FileName>PivotTableCities.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ListingBook2016.PivotTableListingStatus" Collapsed="true">
+    <Position X="6" Y="6" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAEAAEAAAAAAAIgAAQQAgiAAGAxAAAABAQAAGg=</HashCode>
+      <FileName>PivotTableListingStatus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ListingBook2016.ReportCMA" Collapsed="true">
+    <Position X="6" Y="5.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAAAAAAACAIAIAAAAAAAAAAAAAAAQAAAAAAEA=</HashCode>
+      <FileName>ReportCMA.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ListingBook2016.ReportMonthlyAttached" Collapsed="true">
+    <Position X="3.5" Y="5.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ReportMonthlyAttached.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ListingBook2016.ReportMonthlyDetached" Collapsed="true">
+    <Position X="0.75" Y="5.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAIAAAAAAAAAAEAAAAAAAAAAAEA=</HashCode>
+      <FileName>ReportMonthlyDetached.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ListingBook2016.Ribbon1" Collapsed="true">
+    <Position X="0.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAQAQAoACAEAAAAEQDAAAGCAOA4AAAQAAAAAIAAAIA=</HashCode>
+      <FileName>Ribbon1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ListingBook2016.ThisRibbonCollection" Collapsed="true">
+    <Position X="2.75" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ListingBook2016.SQLEdit" Collapsed="true">
+    <Position X="0.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAARAAAgCABAACAAAAAABBAEAAAQAAAAA=</HashCode>
+      <FileName>SQLEdit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ListingBook2016.ThisAddIn" Collapsed="true">
+    <Position X="0.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAwAACQCBAAEQAgAQEAgVgAAAAAABAQAAgAIAACACg=</HashCode>
+      <FileName>ThisAddIn.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ListingBook2016.Globals" Collapsed="true">
+    <Position X="2.75" Y="0.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAgAgAAAAAAAAAAAIAAAAAAAAAAAAAAAAAACAAAAgAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ListingBook2016.Properties.Resources" Collapsed="true">
+    <Position X="2.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABEAAAAQAAAAAAAAAAAAAAAIA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ListingBook2016.Properties.Settings" Collapsed="true">
+    <Position X="4.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAIAAAAAABAAAAAAAAAAAAAAA=</HashCode>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="ListingBook2016.ReportType.Detached" Collapsed="true">
+    <Position X="2.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Library.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ListingBook2016.ReportType.Attached" Collapsed="true">
+    <Position X="0.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAg=</HashCode>
+      <FileName>Library.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ListingBook2016.ListingStatus" Collapsed="true">
+    <Position X="4.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAQABAAAAAAAAIgAAAEAAAAAAA=</HashCode>
+      <FileName>Library.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ListingBook2016.ReportDataSheet" Collapsed="true">
+    <Position X="6" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>Library.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

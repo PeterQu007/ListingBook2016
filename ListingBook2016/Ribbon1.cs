@@ -31,26 +31,27 @@ namespace ListingBook2016
             report.AllCommunities();
         }
 
+        #region CMA.REPORTS
         private void btmCondoSold_Click(object sender, RibbonControlEventArgs e)
         {
             ReportCMA cma = new ReportCMA(Globals.ThisAddIn.Application.Worksheets["Listings Table"]);
-            bool bCMA = true;
-            cma.Condo(ListingStatus.Sold, bCMA);
+            cma.Condo(ListingStatus.Sold);
         }
 
         private void btnCondoActive_Click(object sender, RibbonControlEventArgs e)
         {
             ReportCMA cma = new ReportCMA(Globals.ThisAddIn.Application.Worksheets["Listings Table"]);
-            bool bCMA = true;
-            cma.Condo(ListingStatus.Active, bCMA);
+            cma.Condo(ListingStatus.Active);
         }
 
         private void btnCondoCMA_Click(object sender, RibbonControlEventArgs e)
         {
             ReportCMA cma = new ReportCMA(Globals.ThisAddIn.Application.Worksheets["Listings Table"]);
-            bool bCMA = true;
-            cma.Condo(ListingStatus.Sold, bCMA);
-            cma.Condo(ListingStatus.Active, bCMA);
+            try { cma.Condo(ListingStatus.Sold); } catch (Exception ex) { };
+            try { cma.Condo(ListingStatus.Active); } catch (Exception ex) { };
+            try { cma.Condo(ListingStatus.OffMarket); } catch (Exception ex) { };
         }
+        #endregion
+
     }
 }

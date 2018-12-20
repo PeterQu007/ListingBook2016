@@ -7,7 +7,22 @@ using Excel = Microsoft.Office.Interop.Excel;
 
 namespace ListingBook2016
 {
-    
+
+    public class PivotTableCMA : PivotTableListingStatus
+    {
+        private static readonly bool bShowUnitNoTrue = true;
+        public PivotTableCMA(string pvSheetName, int TopPadding, string TableName, ListingStatus Status)
+                : base(pvSheetName, TopPadding, TableName, Status, bShowUnitNoTrue)
+        {
+        }
+
+        public void AddComparableCreteria(){
+            //TO DO ADD AGE
+            //FLOOR AREA, LOT AREA
+            //ADD BEDROOMS, BATHROOMS, 
+            //ADD STRUCTURE - CONCRETE OF WOOD FRAME?
+        }
+    }
     public class PivotTableListingStatus
     {
         public Excel.Worksheet PivotSheet;
@@ -24,7 +39,7 @@ namespace ListingBook2016
             this.PivotSheetName = pvSheetName;
             this.PivotTableName = TableName;
             this.PivotTableTopPaddingRows = TopPadding;
-            this.Status = Library.GetStatus(Status);
+            this.Status = (char)Status; //Library.GetStatus(Status);
             this.bShowUnitNo = bShowUnitNo;
             this.ListingSheet = Globals.ThisAddIn.Application.Worksheets["Listings Table"];
             this.ListingBook = Globals.ThisAddIn.Application.ActiveWorkbook;
@@ -38,9 +53,9 @@ namespace ListingBook2016
             PivotSheet.Activate();
             int PivotTableFirstRow = Library.GetLastRow(PivotSheet) + PivotTableTopPaddingRows;
             this.PivotTableLocation = "A" + PivotTableFirstRow;
-         
+
             this.Create(PivotSheet, PivotTableLocation, PivotTableName, this.Status);
-            
+
         }
 
         public void Create(Excel.Worksheet PivotSheet, string Location, string TableName, char Status)
@@ -69,7 +84,22 @@ namespace ListingBook2016
 
             Excel.PivotField pvf = pvt.PivotFields("Status");
             pvf.Orientation = Excel.XlPivotFieldOrientation.xlPageField;
-            pvf.CurrentPage = Status.ToString();
+            switch ((ListingStatus)Status)
+            {
+                case ListingStatus.Active:
+                case ListingStatus.Sold:
+                    pvf.CurrentPage = Status.ToString();
+                    break;
+                case ListingStatus.OffMarket:
+                    try { pvf.PivotItems(((char)ListingStatus.Active).ToString()).Visible = false; } catch (Exception e) { };
+                    try { pvf.PivotItems(((char)ListingStatus.Sold).ToString()).Visible = false; } catch (Exception e) { };
+                    try { pvf.PivotItems(((char)ListingStatus.Terminate).ToString()).Visible = true; } catch(Exception e) { };
+                    try { pvf.PivotItems(((char)ListingStatus.Cancel).ToString()).Visible = true; } catch (Exception e) { };
+                    try { pvf.PivotItems(((char)ListingStatus.Expire).ToString()).Visible = true; } catch (Exception e) { };
+                    pvf.EnableMultiplePageItems = true;
+                    break;
+            }
+            
 
             //Group 1 S/A
             pvt.PivotFields("S/A").Orientation = Excel.XlPivotFieldOrientation.xlRowField;
@@ -88,8 +118,8 @@ namespace ListingBook2016
             }
 
             pvt.AddDataField(pvt.PivotFields("MLS"), "Count", Excel.XlConsolidationFunction.xlCount);
-            pvt.AddDataField(pvt.PivotFields("Price"), Type.Missing, Excel.XlConsolidationFunction.xlAverage);
-            pvt.AddDataField(pvt.PivotFields("DOM"), "Days On Mkt", Excel.XlConsolidationFunction.xlAverage);
+            pvt.AddDataField(pvt.PivotFields("Price"), "Avg. Price", Excel.XlConsolidationFunction.xlAverage);
+            pvt.AddDataField(pvt.PivotFields("CDOM"), "Days On Mkt", Excel.XlConsolidationFunction.xlAverage);
             pvt.AddDataField(pvt.PivotFields("TotFlArea"), "Floor Area", Excel.XlConsolidationFunction.xlAverage);
             pvt.AddDataField(pvt.PivotFields("PrcSqft"), "$PSF", Excel.XlConsolidationFunction.xlAverage);
             pvt.AddDataField(pvt.PivotFields("Age"), "Building Age", Excel.XlConsolidationFunction.xlAverage);
@@ -97,7 +127,7 @@ namespace ListingBook2016
             pvt.AddDataField(pvt.PivotFields("BCAValue"), "BC Assess.", Excel.XlConsolidationFunction.xlAverage);
             pvt.AddDataField(pvt.PivotFields("Change%"), "Chg% to BCA", Excel.XlConsolidationFunction.xlAverage);
 
-            pvt.PivotFields("Price").NumberFormat = "$#,##0";
+            pvt.PivotFields("Avg. Price").NumberFormat = "$#,##0";
             pvt.PivotFields("Days On Mkt").NumberFormat = "0";
             pvt.PivotFields("Floor Area").NumberFormat = "0";
             pvt.PivotFields("$PSF").NumberFormat = "$#,##0";
@@ -194,7 +224,8 @@ namespace ListingBook2016
             AddSubGroupBottomBorder(TableName);
             FormatMaxCells();
             FormatMinCells();
-            AddSectionTitle(PivotSheet, TableName, City + " " + Status + " Records:");
+            
+            AddSectionTitle(PivotSheet, TableName, City + " " + (ListingStatus)Status + " Records:");
         }
 
         private void AddSubGroupBottomBorder(string PivotTableName)
@@ -351,31 +382,31 @@ namespace ListingBook2016
             Excel.Range Cell2 = null;
 
             //1) BCA - Price
-            double BCA_Price_CorCoe = Library.GetCorCoeValue(SourceSheet, "G", "R");
+            double BCA_Price_CorCoe = Library.GetCorCoeValue(SourceSheet, ListingDataColNames.Price, ListingDataColNames.BCAValue);
             Cell1 = DestSheet.Range["A" + (LastRow + 1)];
             Cell1.Value = "BCA - Price: CorCoe[-1, +1]";
             Cell2 = DestSheet.Range["E" + (LastRow + 1)];
             Cell2.Value = BCA_Price_CorCoe;
             //2) BCA - Change
-            double BCA_Change_CorCoe = Library.GetCorCoeValue(SourceSheet, "S", "R");
+            double BCA_Change_CorCoe = Library.GetCorCoeValue(SourceSheet, ListingDataColNames.BCAValue, ListingDataColNames.Change_Percent);
             Cell1 = DestSheet.Range["A" + (LastRow + 2)];
             Cell1.Value = "BCA - Change: CorCoe[-1, +1]";
             Cell2 = DestSheet.Range["E" + (LastRow + 2)];
             Cell2.Value = BCA_Change_CorCoe;
             //3) FloorArea - Price Per Square Feet
-            double FloorArea_PricePSF_CorCoe = Library.GetCorCoeValue(SourceSheet, "L", "M");
+            double FloorArea_PricePSF_CorCoe = Library.GetCorCoeValue(SourceSheet, ListingDataColNames.FlArTotFin, ListingDataColNames.PrcSqft);
             Cell1 = DestSheet.Range["A" + (LastRow + 3)];
             Cell1.Value = "FloorArea - Price Per Square Feet: CorCoe[-1, +1]";
             Cell2 = DestSheet.Range["E" + (LastRow + 3)];
             Cell2.Value = FloorArea_PricePSF_CorCoe;
             //4) Age - Fee
-            double Age_Fee_CorCoe = Library.GetCorCoeValue(SourceSheet, "O", "P");
+            double Age_Fee_CorCoe = Library.GetCorCoeValue(SourceSheet, ListingDataColNames.Age, ListingDataColNames.StratMtFee);
             Cell1 = DestSheet.Range["A" + (LastRow + 4)];
             Cell1.Value = "Age - Maint. Fee: CorCoe[-1, +1]";
             Cell2 = DestSheet.Range["E" + (LastRow + 4)];
             Cell2.Value = Age_Fee_CorCoe;
             //5) Age - Price Per Square Feet
-            double Age_PricePSF_CorCoe = Library.GetCorCoeValue(SourceSheet, "O", "M");
+            double Age_PricePSF_CorCoe = Library.GetCorCoeValue(SourceSheet, ListingDataColNames.Age, ListingDataColNames.PrcSqft);
             Cell1 = DestSheet.Range["A" + (LastRow + 5)];
             Cell1.Value = "Age - Price Per Square Feet: CorCoe[-1, +1]";
             Cell2 = DestSheet.Range["E" + (LastRow + 5)];
@@ -420,6 +451,11 @@ namespace ListingBook2016
                     Cell.EntireRow.HorizontalAlignment = Excel.XlHAlign.xlHAlignRight;
                 }
                 if (Sheet.Range["B" + row.Row].Value?.IndexOf("Total") > 0)
+                {
+                    row.Select();
+                    row.EntireRow.Hidden = true;
+                }
+                if (Sheet.Range["C" + row.Row].Value?.IndexOf("Total") > 0)
                 {
                     row.Select();
                     row.EntireRow.Hidden = true;

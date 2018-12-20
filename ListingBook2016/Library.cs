@@ -23,21 +23,25 @@ namespace ListingBook2016
             AllNeighborhoods = 4
         }
     }
+    
+
     public enum ListingStatus
     {
-        Sold = 0,
-        Active = 1,
-        Expire = 2,
-        Terminate = 3,
-        Cancel = 4,
-        OffMarket = 5
+        Sold = 'S',
+        Active = 'A',
+        Expire = 'X',
+        Terminate = 'T',
+        Cancel = 'C',
+        OffMarket = 'Z'
     }
-
     public enum ReportDataSheet
     {
         ParagonExport = 0,
         MLSHelperExport = 1
     }
+
+    
+    
 
     public static class ListingDataColNames
     {
@@ -238,6 +242,7 @@ namespace ListingBook2016
         }
     }
     public static class Library
+
     {
         static char Sold = 'S';
         static char Active = 'A';
@@ -245,26 +250,9 @@ namespace ListingBook2016
         static char Terminate = 'T';
         static char Cancel = 'C';
         static char OffMarket = 'Z';
-        public static char GetStatus(ListingStatus status)
-        {
-            switch (status)
-            {
-                case ListingStatus.Active:
-                    return Active;
-                case ListingStatus.Sold:
-                    return Sold;
-                case ListingStatus.Expire:
-                    return Expire;
-                case ListingStatus.Terminate:
-                    return Terminate;
-                case ListingStatus.Cancel:
-                    return Cancel;
-                case ListingStatus.OffMarket:
-                    return OffMarket;
-                default:
-                    return Sold;
-            }
-        }
+
+        
+        
         public static bool SheetExist(string SheetName)
         {
             foreach (Excel.Worksheet sheet in Globals.ThisAddIn.Application.Worksheets)
@@ -303,16 +291,29 @@ namespace ListingBook2016
             int lastRow = 0;
             int iCol = 0;
             int iFilterCol = 0;
+            List<string> StatusList = new List<string>();
 
             iCol = Sheet.Cells[1, ColLabel].Column; //Convert ColLable to ColNumber
             lastRow = GetLastRow(Sheet);
             Sheet.Select();
 
+            switch (Status)
+            {
+                case (char)ListingStatus.Active:
+                case (char)ListingStatus.Sold:
+                    StatusList.Add(Status.ToString());
+                    break;
+                case (char)ListingStatus.OffMarket:
+                    StatusList.Add(((char)ListingStatus.Expire).ToString());
+                    StatusList.Add(((char)ListingStatus.Terminate).ToString());
+                    StatusList.Add(((char)ListingStatus.Cancel).ToString());
+                    break;
+            }
             if (City == "")
             {
                 //Status - column C
                 iFilterCol = Sheet.Cells[1, "C"].Column;
-                Sheet.Range["A1"].AutoFilter(iFilterCol, Status.ToString(), Excel.XlAutoFilterOperator.xlAnd);
+                Sheet.Range["A1"].AutoFilter(iFilterCol, StatusList.ToArray(), Excel.XlAutoFilterOperator.xlFilterValues);
                 DataName = DataName + "_" + Status;
             }
             else
@@ -342,16 +343,28 @@ namespace ListingBook2016
             int lastRow = 0;
             int iCol = 0;
             int iFilterCol = 0;
+            List<string> StatusList = new List<string>();
 
             iCol = Sheet.Cells[1, ColLabel].Column; //Convert ColLable to ColNumber
             lastRow = GetLastRow(Sheet);
             Sheet.Select();
-
+            switch (Status)
+            {
+                case (char)ListingStatus.Active:
+                case (char)ListingStatus.Sold:
+                    StatusList.Add(Status.ToString());
+                    break;
+                case (char)ListingStatus.OffMarket:
+                    StatusList.Add(((char)ListingStatus.Expire).ToString());
+                    StatusList.Add(((char)ListingStatus.Terminate).ToString());
+                    StatusList.Add(((char)ListingStatus.Cancel).ToString());
+                    break;
+            }
             if (City == "")
             {
                 //Status - column C
                 iFilterCol = Sheet.Cells[1, "C"].Column;
-                Sheet.Range["A1"].AutoFilter(iFilterCol, Status.ToString(), Excel.XlAutoFilterOperator.xlAnd);
+                Sheet.Range["A1"].AutoFilter(iFilterCol, StatusList.ToArray(), Excel.XlAutoFilterOperator.xlFilterValues);
                 DataName = DataName + "_" + Status;
             }
             else

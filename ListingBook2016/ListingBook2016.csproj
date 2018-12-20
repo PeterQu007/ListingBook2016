@@ -176,6 +176,7 @@
     <EmbeddedResource Include="SQLEdit.resx">
       <DependentUpon>SQLEdit.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="ListbookDiagram.cd" />
     <None Include="ListingBook2016_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
