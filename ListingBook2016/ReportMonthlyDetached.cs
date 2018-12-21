@@ -29,7 +29,7 @@ namespace ListingBook2016
             //PIVOT TABLE
             PivotTableName = "PT_" + PivotSheetName;
             //Globals.ThisAddIn.Application.ScreenUpdating = false;
-            PivotTableCities cpt = new PivotTableCities(PivotSheetName, PivotTableTopPaddingRows, PivotTableName, ReportType.Detached.AllCities);
+            PivotTableCities cpt = new PivotTableCities(PivotSheetName, PivotTableTopPaddingRows, PivotTableName, ReportType.MonthlyDetachedAllCities);
             this.PivotSheet = cpt.PivotSheet;
             cpt.FormatPivotTable(cpt.PivotSheet, PivotTableName);
 
@@ -46,7 +46,7 @@ namespace ListingBook2016
             //PIVOT TABLE
             PivotTableName = "PT_" + PivotSheetName;
             //Globals.ThisAddIn.Application.ScreenUpdating = false;
-            PivotTableCities cpt = new PivotTableCities(PivotSheetName, PivotTableTopPaddingRows, PivotTableName, ReportType.Detached.AllCommunities);
+            PivotTableCities cpt = new PivotTableCities(PivotSheetName, PivotTableTopPaddingRows, PivotTableName, ReportType.MonthlyDetachedAllCommunities);
             this.PivotSheet = cpt.PivotSheet;
             cpt.FormatPivotTable(cpt.PivotSheet, PivotTableName);
 

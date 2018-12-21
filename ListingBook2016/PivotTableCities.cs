@@ -19,7 +19,7 @@ namespace ListingBook2016
         private char Status;
         private bool bShowUnitNo;
 
-        public PivotTableCities(string pvSheetName, int TopPadding, string TableName, ReportType.Detached TableType)
+        public PivotTableCities(string pvSheetName, int TopPadding, string TableName, ReportType TableType)
         {
             this.PivotSheetName = pvSheetName;
             this.PivotTableName = TableName;
@@ -38,7 +38,7 @@ namespace ListingBook2016
             this.CreateCityPivotTable(PivotSheet, PivotTableLocation, PivotTableName, TableType);
         }
 
-        public void CreateCityPivotTable(Excel.Worksheet PivotSheet, string Location, string TableName, ReportType.Detached TableType)
+        public void CreateCityPivotTable(Excel.Worksheet PivotSheet, string Location, string TableName, ReportType TableType)
         {
             ListingSheet.Select();
             string LastRow = "";
@@ -71,11 +71,11 @@ namespace ListingBook2016
             //Group 1 S/A
             switch (TableType)
             {
-                case ReportType.Detached.AllCities:
+                case ReportType.MonthlyDetachedAllCities:
                     pvt.PivotFields("City").Orientation = Excel.XlPivotFieldOrientation.xlRowField;
                     RankBaseField = "City";
                     break;
-                case ReportType.Detached.AllCommunities:
+                case ReportType.MonthlyDetachedAllCommunities:
                     pvt.PivotFields("Neighborhood").Orientation = Excel.XlPivotFieldOrientation.xlRowField;
                     RankBaseField = "Neighborhood";
                     break;

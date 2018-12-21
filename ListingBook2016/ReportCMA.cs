@@ -12,13 +12,15 @@ namespace ListingBook2016
         public Excel.Worksheet ListingSheet;
         public Excel.Worksheet PivotSheet;
         private DataProcessing dp;
+        private ReportType CMAReportType;
 
-        public ReportCMA(Excel.Worksheet ws)
+        public ReportCMA(Excel.Worksheet ws, ReportType cmaType)
         {
             this.ListingSheet = ws;
             dp = new DataProcessing(ws);
+            this.CMAReportType = cmaType;
         }
-        public void Condo(ListingStatus Status)
+        public void Residential(ListingStatus Status)
         {
             int PivotTableTopPaddingRows = 5;
             string PivotSheetName = "PivotSheet";
@@ -27,7 +29,7 @@ namespace ListingBook2016
 
             //DATA VALICATE
             ListingSheet.Activate();
-            if (dp.ValidateData_Attached())
+            if (dp.ValidateData(CMAReportType))
             {
                 Console.Write("Listing Data Needs To Be Reviewed");
                 return;
@@ -37,7 +39,7 @@ namespace ListingBook2016
             //PIVOT TABLE
             PivotTableName = "PivotTable_" + Status;
             Globals.ThisAddIn.Application.ScreenUpdating = true;
-            lpt = new PivotTableCMA(PivotSheetName, PivotTableTopPaddingRows, PivotTableName, Status);
+            lpt = new PivotTableCMA(PivotSheetName, PivotTableTopPaddingRows, PivotTableName, Status, CMAReportType);
             this.PivotSheet = lpt.PivotSheet;
             lpt.Format(lpt.PivotSheet, PivotTableName, (char)Status, "");
             lpt.AddMedianSummary(lpt.PivotSheet, PivotTableName, (char)Status);

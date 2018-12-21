@@ -9,21 +9,37 @@ using Excel = Microsoft.Office.Interop.Excel;
 namespace ListingBook2016
 {
 
-    namespace ReportType
+    public enum ReportType
     {
-        public enum Detached
-        {
-            AllCities = 0,
-            AllCommunities = 1
-        }
-        public enum Attached
-        {
-            AllCities = 2,
-            AllCommunities = 3,
-            AllNeighborhoods = 4
-        }
+        MonthlyDetachedAllCities = 0,
+        MonthlyDetachedAllCommunities = 1,
+        MonthlyAttachedAllCities = 2,
+        MonthlyAttachedAllCommunities = 3,
+        MonthlyAttachedAllComplexes = 4,
+        QuarterlyDetachedAllCities = 10,
+        QuarterlyDetachedAllCommunities = 11,
+        QuarterlyAttachedAllCities = 12,
+        QuarterlyAttachedAllCommunities = 13,
+        QuarterlyAttachedAllComplexes = 14,
+        AnnuallyDetachedAllCities = 20,
+        AnnuallyDetachedAllCommunities = 21,
+        AnnuallyAttachedAllCities = 22,
+        AnnuallyAttachedAllCommunities = 23,
+        AnuuallyAttachedAllComplexes = 24,
+
+        CMADetached = 30,
+        CMAAttached = 31,
+
+        SpecialityPriceChageTop10 = 40,
+        SpecialtyActivePriceTop10 = 41,
+        SpecialtySoldPriceTop10 = 42
     }
-    
+
+    public static class ListingDataSheet{
+        public static string ParagonExport = "Sheet1";
+        public static string MLSHelperExport = "Listings Table";
+    }
+
 
     public enum ListingStatus
     {
@@ -40,8 +56,6 @@ namespace ListingBook2016
         MLSHelperExport = 1
     }
 
-    
-    
 
     public static class ListingDataColNames
     {
@@ -124,7 +138,7 @@ namespace ListingBook2016
             this.ListingSheet = ListingSheet;
         }
 
-        public bool ValidateData_Attached()
+        public bool ValidateData(ReportType rptType)
         {
             bool bStop = false;
             //Globals.ThisAddIn.Application.ScreenUpdating = false;
@@ -132,13 +146,16 @@ namespace ListingBook2016
             Globals.ThisAddIn.Application.DisplayStatusBar = true;
 
             Excel.Range rng = null;
-            rng = this.ListingSheet.Cells[1, ListingDataColNames.UnitNo];
+            rng = this.ListingSheet.Cells[2, ListingDataColNames.Prop_Type];
             rng.Select();
 
-            if (!rng.Value2.StartsWith("Unit"))
+            if (rptType.ToString().IndexOf("Attached") > 0)
             {
-                MessageBox.Show("Wrong Listings for Attached Homes");
-                return true;
+                if (!rng.Value2 != "Residential Attached")
+                {
+                    MessageBox.Show("Wrong Listings for Attached Homes");
+                    return true;
+                }
             }
 
             if (!ListingSheet.AutoFilterMode)
@@ -150,7 +167,10 @@ namespace ListingBook2016
             //VALIDATE COMPLEX.NAME
             bStop |= ValidateColumnBlankCell(ListingDataColNames.Complex_Subdivision);
             //VALIDATE MAINT.FEE
-            bStop |= ValidateColumnZeroValue(ListingDataColNames.StratMtFee);
+            if (rptType.ToString().IndexOf("Attached") > 0)
+            {
+                bStop |= ValidateColumnZeroValue(ListingDataColNames.StratMtFee);
+            }
             //VALIDATE AGE
             bStop |= ValidateColumnAge(ListingDataColNames.Age);
             //VALIDATE BCA.VALUE
@@ -161,7 +181,7 @@ namespace ListingBook2016
             //VALIDATE ADDRESS
             bStop |= ValidateColumnBlankCell(ListingDataColNames.Address2);
 
-            Globals.ThisAddIn.Application.StatusBar = "Validate Data of Attached Done!";
+            Globals.ThisAddIn.Application.StatusBar = bStop? "Check DataSheet RED Highlights" : "Validate Data of Attached Done!";
             //Globals.ThisAddIn.Application.ScreenUpdating = true;
             //Globals.ThisAddIn.Application.DisplayAlerts = true;
             return bStop;
@@ -244,15 +264,7 @@ namespace ListingBook2016
     public static class Library
 
     {
-        static char Sold = 'S';
-        static char Active = 'A';
-        static char Expire = 'X';
-        static char Terminate = 'T';
-        static char Cancel = 'C';
-        static char OffMarket = 'Z';
 
-        
-        
         public static bool SheetExist(string SheetName)
         {
             foreach (Excel.Worksheet sheet in Globals.ThisAddIn.Application.Worksheets)

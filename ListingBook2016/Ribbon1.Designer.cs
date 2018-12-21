@@ -45,31 +45,40 @@
             this.button1 = this.Factory.CreateRibbonButton();
             this.button2 = this.Factory.CreateRibbonButton();
             this.group4 = this.Factory.CreateRibbonGroup();
-            this.button3 = this.Factory.CreateRibbonButton();
+            this.btnDetachedCMA = this.Factory.CreateRibbonButton();
             this.button4 = this.Factory.CreateRibbonButton();
-            this.button5 = this.Factory.CreateRibbonButton();
-            this.group5 = this.Factory.CreateRibbonGroup();
+            this.btnCMAAll = this.Factory.CreateRibbonButton();
             this.group6 = this.Factory.CreateRibbonGroup();
             this.btmCondoSold = this.Factory.CreateRibbonButton();
             this.btnCondoActive = this.Factory.CreateRibbonButton();
             this.btnCondoCMA = this.Factory.CreateRibbonButton();
+            this.group5 = this.Factory.CreateRibbonGroup();
+            this.button3 = this.Factory.CreateRibbonButton();
+            this.button6 = this.Factory.CreateRibbonButton();
+            this.button7 = this.Factory.CreateRibbonButton();
+            this.group7 = this.Factory.CreateRibbonGroup();
+            this.button5 = this.Factory.CreateRibbonButton();
+            this.button8 = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group1.SuspendLayout();
             this.group2.SuspendLayout();
             this.group3.SuspendLayout();
             this.group4.SuspendLayout();
             this.group6.SuspendLayout();
+            this.group5.SuspendLayout();
+            this.group7.SuspendLayout();
             this.SuspendLayout();
             // 
             // tab1
             // 
             this.tab1.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
-            this.tab1.Groups.Add(this.group1);
-            this.tab1.Groups.Add(this.group2);
-            this.tab1.Groups.Add(this.group3);
             this.tab1.Groups.Add(this.group4);
-            this.tab1.Groups.Add(this.group5);
             this.tab1.Groups.Add(this.group6);
+            this.tab1.Groups.Add(this.group7);
+            this.tab1.Groups.Add(this.group3);
+            this.tab1.Groups.Add(this.group2);
+            this.tab1.Groups.Add(this.group1);
+            this.tab1.Groups.Add(this.group5);
             this.tab1.Label = "TabAddIns";
             this.tab1.Name = "tab1";
             // 
@@ -128,38 +137,36 @@
             // 
             // group4
             // 
-            this.group4.Items.Add(this.button3);
+            this.group4.Items.Add(this.btnDetachedCMA);
             this.group4.Items.Add(this.button4);
-            this.group4.Items.Add(this.button5);
+            this.group4.Items.Add(this.btnCMAAll);
             this.group4.Label = "Detached CMA";
             this.group4.Name = "group4";
             // 
-            // button3
+            // btnDetachedCMA
             // 
-            this.button3.Label = "Sold";
-            this.button3.Name = "button3";
+            this.btnDetachedCMA.Label = "Sold";
+            this.btnDetachedCMA.Name = "btnDetachedCMA";
+            this.btnDetachedCMA.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnDetachedCMA_Click);
             // 
             // button4
             // 
             this.button4.Label = "Active";
             this.button4.Name = "button4";
+            this.button4.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button4_Click);
             // 
-            // button5
+            // btnCMAAll
             // 
-            this.button5.Label = "CMA";
-            this.button5.Name = "button5";
-            // 
-            // group5
-            // 
-            this.group5.Label = "Townhouse CMA";
-            this.group5.Name = "group5";
+            this.btnCMAAll.Label = "CMA";
+            this.btnCMAAll.Name = "btnCMAAll";
+            this.btnCMAAll.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnCMAAll_Click);
             // 
             // group6
             // 
             this.group6.Items.Add(this.btmCondoSold);
             this.group6.Items.Add(this.btnCondoActive);
             this.group6.Items.Add(this.btnCondoCMA);
-            this.group6.Label = "Condo CMA";
+            this.group6.Label = "Attached CMA";
             this.group6.Name = "group6";
             // 
             // btmCondoSold
@@ -180,6 +187,46 @@
             this.btnCondoCMA.Name = "btnCondoCMA";
             this.btnCondoCMA.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnCondoCMA_Click);
             // 
+            // group5
+            // 
+            this.group5.Items.Add(this.button3);
+            this.group5.Items.Add(this.button6);
+            this.group5.Items.Add(this.button7);
+            this.group5.Label = "Specialty Report";
+            this.group5.Name = "group5";
+            // 
+            // button3
+            // 
+            this.button3.Label = "Price Change Top10";
+            this.button3.Name = "button3";
+            // 
+            // button6
+            // 
+            this.button6.Label = "Price Active Top10";
+            this.button6.Name = "button6";
+            // 
+            // button7
+            // 
+            this.button7.Label = "Price Sold Top10";
+            this.button7.Name = "button7";
+            // 
+            // group7
+            // 
+            this.group7.Items.Add(this.button5);
+            this.group7.Items.Add(this.button8);
+            this.group7.Label = "Deals for the Buyer";
+            this.group7.Name = "group7";
+            // 
+            // button5
+            // 
+            this.button5.Label = "Buyer Detached";
+            this.button5.Name = "button5";
+            // 
+            // button8
+            // 
+            this.button8.Label = "Buyer Attached";
+            this.button8.Name = "button8";
+            // 
             // Ribbon1
             // 
             this.Name = "Ribbon1";
@@ -198,6 +245,10 @@
             this.group4.PerformLayout();
             this.group6.ResumeLayout(false);
             this.group6.PerformLayout();
+            this.group5.ResumeLayout(false);
+            this.group5.PerformLayout();
+            this.group7.ResumeLayout(false);
+            this.group7.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -215,14 +266,20 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button1;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button2;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group4;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button3;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnDetachedCMA;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button4;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button5;
-        internal Microsoft.Office.Tools.Ribbon.RibbonGroup group5;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnCMAAll;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group6;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btmCondoSold;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnCondoActive;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnCondoCMA;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup group5;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton button3;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton button6;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton button7;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup group7;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton button5;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton button8;
     }
 
     partial class ThisRibbonCollection

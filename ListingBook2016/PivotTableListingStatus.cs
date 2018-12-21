@@ -11,9 +11,10 @@ namespace ListingBook2016
     public class PivotTableCMA : PivotTableListingStatus
     {
         private static readonly bool bShowUnitNoTrue = true;
-        public PivotTableCMA(string pvSheetName, int TopPadding, string TableName, ListingStatus Status)
+        public PivotTableCMA(string pvSheetName, int TopPadding, string TableName, ListingStatus Status, ReportType cmaType)
                 : base(pvSheetName, TopPadding, TableName, Status, bShowUnitNoTrue)
         {
+            this.rptType = cmaType;
         }
 
         public void AddComparableCreteria(){
@@ -34,13 +35,14 @@ namespace ListingBook2016
         private string PivotTableLocation;
         private char Status;
         private bool bShowUnitNo;
+        protected ReportType rptType;
         public PivotTableListingStatus(string pvSheetName, int TopPadding, string TableName, ListingStatus Status, bool bShowUnitNo)
         {
             this.PivotSheetName = pvSheetName;
             this.PivotTableName = TableName;
             this.PivotTableTopPaddingRows = TopPadding;
             this.Status = (char)Status; //Library.GetStatus(Status);
-            this.bShowUnitNo = bShowUnitNo;
+            this.bShowUnitNo = bShowUnitNo && (rptType.ToString().IndexOf("Attached")>0);
             this.ListingSheet = Globals.ThisAddIn.Application.Worksheets["Listings Table"];
             this.ListingBook = Globals.ThisAddIn.Application.ActiveWorkbook;
             this.ListingSheet.AutoFilterMode = false;
@@ -106,33 +108,50 @@ namespace ListingBook2016
             pvt.PivotFields("S/A").Name = "Neighborhood";
             //Group 2 Complex
             pvt.PivotFields("Complex/Subdivision").Orientation = Excel.XlPivotFieldOrientation.xlRowField;
-            pvt.PivotFields("Complex/Subdivision").Name = "Complex";
+            pvt.PivotFields("Complex/Subdivision").Name = this.rptType.ToString().IndexOf("Detached") < 0 ? "Complex" : "SubDivision";
             //Group 3 Address
             pvt.PivotFields("Address2").Orientation = Excel.XlPivotFieldOrientation.xlRowField;
             pvt.PivotFields("Address2").Name = "Civic Address";
             //Group 4 UnitNo
-            if (this.bShowUnitNo)
+            if (this.bShowUnitNo || this.rptType.ToString().IndexOf("Detached")<0)
             {
                 pvt.PivotFields("Unit#").Orientation = Excel.XlPivotFieldOrientation.xlRowField;
                 pvt.PivotFields("Unit#").Name = "Unit No";
             }
 
             pvt.AddDataField(pvt.PivotFields("MLS"), "Count", Excel.XlConsolidationFunction.xlCount);
-            pvt.AddDataField(pvt.PivotFields("Price"), "Avg. Price", Excel.XlConsolidationFunction.xlAverage);
+            pvt.AddDataField(pvt.PivotFields("Price0"), "Price", Excel.XlConsolidationFunction.xlAverage);
             pvt.AddDataField(pvt.PivotFields("CDOM"), "Days On Mkt", Excel.XlConsolidationFunction.xlAverage);
             pvt.AddDataField(pvt.PivotFields("TotFlArea"), "Floor Area", Excel.XlConsolidationFunction.xlAverage);
             pvt.AddDataField(pvt.PivotFields("PrcSqft"), "$PSF", Excel.XlConsolidationFunction.xlAverage);
             pvt.AddDataField(pvt.PivotFields("Age"), "Building Age", Excel.XlConsolidationFunction.xlAverage);
-            pvt.AddDataField(pvt.PivotFields("StratMtFee"), "Monthly Fee", Excel.XlConsolidationFunction.xlAverage);
+            if (this.rptType.ToString().IndexOf("Detached") < 0)
+            {
+                pvt.AddDataField(pvt.PivotFields("StratMtFee"), "Monthly Fee", Excel.XlConsolidationFunction.xlAverage);
+            }
+            else
+            {
+                pvt.AddDataField(pvt.PivotFields("Lot Sz (Sq.Ft.)"), "Land Size", Excel.XlConsolidationFunction.xlAverage);
+                pvt.AddDataField(pvt.PivotFields("LandValue"), "Land Assess.", Excel.XlConsolidationFunction.xlAverage);
+            }
+
             pvt.AddDataField(pvt.PivotFields("BCAValue"), "BC Assess.", Excel.XlConsolidationFunction.xlAverage);
             pvt.AddDataField(pvt.PivotFields("Change%"), "Chg% to BCA", Excel.XlConsolidationFunction.xlAverage);
 
-            pvt.PivotFields("Avg. Price").NumberFormat = "$#,##0";
+            pvt.PivotFields("Price").NumberFormat = "$#,##0";
             pvt.PivotFields("Days On Mkt").NumberFormat = "0";
             pvt.PivotFields("Floor Area").NumberFormat = "0";
             pvt.PivotFields("$PSF").NumberFormat = "$#,##0";
             pvt.PivotFields("Building Age").NumberFormat = "0";
-            pvt.PivotFields("Monthly Fee").NumberFormat = "$#,##0";
+            if (this.rptType.ToString().IndexOf("Detached") < 0)
+            {
+                pvt.PivotFields("Monthly Fee").NumberFormat = "$#,##0";
+            }
+            else
+            {
+                pvt.PivotFields("Land Size").NumberFormat = "0";
+                pvt.PivotFields("Land Assess.").NumberFormat = "$#,##0";
+            }
             pvt.PivotFields("BC Assess.").NumberFormat = "$#,##0";
             pvt.PivotFields("Chg% to BCA").NumberFormat = "0%";
 
@@ -286,10 +305,18 @@ namespace ListingBook2016
             PivotSheet.Columns[++FirstCol].ColumnWidth = 7.5;
             PivotSheet.Columns[++FirstCol].ColumnWidth = 7.5;
             PivotSheet.Columns[++FirstCol].ColumnWidth = 8.8;
-            PivotSheet.Columns[++FirstCol].ColumnWidth = 9.5;
-            PivotSheet.Columns[++FirstCol].ColumnWidth = 10.6;
-            PivotSheet.Columns[++FirstCol].ColumnWidth = 7.5;
-
+            if (this.rptType.ToString().IndexOf("Detached") < 0)
+            {
+                PivotSheet.Columns[++FirstCol].ColumnWidth = 9.5;
+                PivotSheet.Columns[++FirstCol].ColumnWidth = 10.6;
+                PivotSheet.Columns[++FirstCol].ColumnWidth = 7.5;
+            }else
+            {
+                PivotSheet.Columns[++FirstCol].ColumnWidth = 9.5;
+                PivotSheet.Columns[++FirstCol].ColumnWidth = 10.6;
+                PivotSheet.Columns[++FirstCol].ColumnWidth = 10.6;
+                PivotSheet.Columns[++FirstCol].ColumnWidth = 7.5;
+            }
         }
 
         public void AddSectionTitle(Excel.Worksheet WS, string PTName, string Title)
@@ -340,23 +367,31 @@ namespace ListingBook2016
             Cell.Value2 = "Median Values";
 
             //TOTAL LISITNGS COUNT
-            TableSheet.Cells[medianRow, rw + 1].Value = Library.GetCount(ListingSheet, ListingDataColNames.MLS, Status, "", "");
+            TableSheet.Cells[medianRow, ++rw].Value = Library.GetCount(ListingSheet, ListingDataColNames.MLS, Status, "", "");
             //PRICE 
-            TableSheet.Cells[medianRow, rw + 2].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.Price, Status, "", "");
+            TableSheet.Cells[medianRow, ++rw].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.Price, Status, "", "");
             //DAYS ON MARKET DOM OR CDOM
-            TableSheet.Cells[medianRow, rw + 3].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.DOM, Status, "", "");
+            TableSheet.Cells[medianRow, ++rw].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.DOM, Status, "", "");
             //
-            TableSheet.Cells[medianRow, rw + 4].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.FlArTotFin, Status, "", "");
+            TableSheet.Cells[medianRow, ++rw].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.FlArTotFin, Status, "", "");
             //
-            TableSheet.Cells[medianRow, rw + 5].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.PrcSqft, Status, "", "");
+            TableSheet.Cells[medianRow, ++rw].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.PrcSqft, Status, "", "");
             //
-            TableSheet.Cells[medianRow, rw + 6].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.Age, Status, "", "");
+            TableSheet.Cells[medianRow, ++rw].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.Age, Status, "", "");
             //
-            TableSheet.Cells[medianRow, rw + 7].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.StratMtFee, Status, "", "");
+            if (this.rptType.ToString().IndexOf("Detached") < 0)
+            {
+                TableSheet.Cells[medianRow, ++rw].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.StratMtFee, Status, "", "");
+            }else
+            {
+                TableSheet.Cells[medianRow, ++rw].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.Lot_Sz_Sq_Ft, Status, "", "");
+                TableSheet.Cells[medianRow, ++rw].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.LandValue , Status, "", "");
+            }
+                
             //
-            TableSheet.Cells[medianRow, rw + 8].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.BCAValue, Status, "", "");
+            TableSheet.Cells[medianRow, ++rw].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.BCAValue, Status, "", "");
             //
-            TableSheet.Cells[medianRow, rw + 9].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.Change_Percent, Status, "", "");
+            TableSheet.Cells[medianRow, ++rw].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.Change_Percent, Status, "", "");
 
             TableSheet.Select();
             lastCol = pvt.TableRange1.Columns.Count;
