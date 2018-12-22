@@ -35,38 +35,38 @@
         private void InitializeComponent()
         {
             this.tab1 = this.Factory.CreateRibbonTab();
-            this.group1 = this.Factory.CreateRibbonGroup();
-            this.btnDetachedAllCities = this.Factory.CreateRibbonButton();
-            this.btnDetachedMonthlyCommunities = this.Factory.CreateRibbonButton();
-            this.group2 = this.Factory.CreateRibbonGroup();
-            this.btnTownhouseAllCities = this.Factory.CreateRibbonButton();
-            this.btnTownhouseAllCommunities = this.Factory.CreateRibbonButton();
-            this.group3 = this.Factory.CreateRibbonGroup();
-            this.button1 = this.Factory.CreateRibbonButton();
-            this.button2 = this.Factory.CreateRibbonButton();
             this.group4 = this.Factory.CreateRibbonGroup();
-            this.btnDetachedCMA = this.Factory.CreateRibbonButton();
-            this.button4 = this.Factory.CreateRibbonButton();
-            this.btnCMAAll = this.Factory.CreateRibbonButton();
+            this.btnDetachedSoldCMA = this.Factory.CreateRibbonButton();
+            this.btnDetachedActiveCMA = this.Factory.CreateRibbonButton();
+            this.btnAllCMA = this.Factory.CreateRibbonButton();
             this.group6 = this.Factory.CreateRibbonGroup();
             this.btmCondoSold = this.Factory.CreateRibbonButton();
             this.btnCondoActive = this.Factory.CreateRibbonButton();
             this.btnCondoCMA = this.Factory.CreateRibbonButton();
+            this.group7 = this.Factory.CreateRibbonGroup();
+            this.btnBuyerDetachedReport = this.Factory.CreateRibbonButton();
+            this.button8 = this.Factory.CreateRibbonButton();
+            this.group3 = this.Factory.CreateRibbonGroup();
+            this.button1 = this.Factory.CreateRibbonButton();
+            this.button2 = this.Factory.CreateRibbonButton();
+            this.group2 = this.Factory.CreateRibbonGroup();
+            this.btnTownhouseAllCities = this.Factory.CreateRibbonButton();
+            this.btnTownhouseAllCommunities = this.Factory.CreateRibbonButton();
+            this.group1 = this.Factory.CreateRibbonGroup();
+            this.btnDetachedAllCities = this.Factory.CreateRibbonButton();
+            this.btnDetachedMonthlyCommunities = this.Factory.CreateRibbonButton();
             this.group5 = this.Factory.CreateRibbonGroup();
             this.button3 = this.Factory.CreateRibbonButton();
             this.button6 = this.Factory.CreateRibbonButton();
             this.button7 = this.Factory.CreateRibbonButton();
-            this.group7 = this.Factory.CreateRibbonGroup();
-            this.button5 = this.Factory.CreateRibbonButton();
-            this.button8 = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
-            this.group1.SuspendLayout();
-            this.group2.SuspendLayout();
-            this.group3.SuspendLayout();
             this.group4.SuspendLayout();
             this.group6.SuspendLayout();
-            this.group5.SuspendLayout();
             this.group7.SuspendLayout();
+            this.group3.SuspendLayout();
+            this.group2.SuspendLayout();
+            this.group1.SuspendLayout();
+            this.group5.SuspendLayout();
             this.SuspendLayout();
             // 
             // tab1
@@ -82,84 +82,31 @@
             this.tab1.Label = "TabAddIns";
             this.tab1.Name = "tab1";
             // 
-            // group1
-            // 
-            this.group1.Items.Add(this.btnDetachedAllCities);
-            this.group1.Items.Add(this.btnDetachedMonthlyCommunities);
-            this.group1.Label = "Detached Monthly";
-            this.group1.Name = "group1";
-            // 
-            // btnDetachedAllCities
-            // 
-            this.btnDetachedAllCities.Label = "All Cities";
-            this.btnDetachedAllCities.Name = "btnDetachedAllCities";
-            this.btnDetachedAllCities.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnDetachedMonthlyCities_Click);
-            // 
-            // btnDetachedMonthlyCommunities
-            // 
-            this.btnDetachedMonthlyCommunities.Label = "All Communities";
-            this.btnDetachedMonthlyCommunities.Name = "btnDetachedMonthlyCommunities";
-            this.btnDetachedMonthlyCommunities.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnDetachedMonthlyCommunities_Click);
-            // 
-            // group2
-            // 
-            this.group2.Items.Add(this.btnTownhouseAllCities);
-            this.group2.Items.Add(this.btnTownhouseAllCommunities);
-            this.group2.Label = "Townhouse Monthly";
-            this.group2.Name = "group2";
-            // 
-            // btnTownhouseAllCities
-            // 
-            this.btnTownhouseAllCities.Label = "All Cities";
-            this.btnTownhouseAllCities.Name = "btnTownhouseAllCities";
-            // 
-            // btnTownhouseAllCommunities
-            // 
-            this.btnTownhouseAllCommunities.Label = "All Commnities";
-            this.btnTownhouseAllCommunities.Name = "btnTownhouseAllCommunities";
-            // 
-            // group3
-            // 
-            this.group3.Items.Add(this.button1);
-            this.group3.Items.Add(this.button2);
-            this.group3.Label = "Condo Monthly";
-            this.group3.Name = "group3";
-            // 
-            // button1
-            // 
-            this.button1.Label = "All Cities";
-            this.button1.Name = "button1";
-            // 
-            // button2
-            // 
-            this.button2.Label = "All Communities";
-            this.button2.Name = "button2";
-            // 
             // group4
             // 
-            this.group4.Items.Add(this.btnDetachedCMA);
-            this.group4.Items.Add(this.button4);
-            this.group4.Items.Add(this.btnCMAAll);
+            this.group4.Items.Add(this.btnDetachedSoldCMA);
+            this.group4.Items.Add(this.btnDetachedActiveCMA);
+            this.group4.Items.Add(this.btnAllCMA);
             this.group4.Label = "Detached CMA";
             this.group4.Name = "group4";
             // 
-            // btnDetachedCMA
+            // btnDetachedSoldCMA
             // 
-            this.btnDetachedCMA.Label = "Sold";
-            this.btnDetachedCMA.Name = "btnDetachedCMA";
-            this.btnDetachedCMA.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnDetachedCMA_Click);
+            this.btnDetachedSoldCMA.Label = "Sold";
+            this.btnDetachedSoldCMA.Name = "btnDetachedSoldCMA";
+            this.btnDetachedSoldCMA.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnDetachedSoldCMA_Click);
             // 
-            // button4
+            // btnDetachedActiveCMA
             // 
-            this.button4.Label = "Active";
-            this.button4.Name = "button4";
-            this.button4.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button4_Click);
+            this.btnDetachedActiveCMA.Label = "Active";
+            this.btnDetachedActiveCMA.Name = "btnDetachedActiveCMA";
+            this.btnDetachedActiveCMA.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnDetachedActiveCMA_Click);
             // 
-            // btnCMAAll
+            // btnAllCMA
             // 
-            this.btnCMAAll.Label = "CMA";
-            this.btnCMAAll.Name = "btnCMAAll";
-            this.btnCMAAll.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnCMAAll_Click);
+            this.btnAllCMA.Label = "CMA";
+            this.btnAllCMA.Name = "btnAllCMA";
+            this.btnAllCMA.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnDetachedAllCMA_Click);
             // 
             // group6
             // 
@@ -187,6 +134,77 @@
             this.btnCondoCMA.Name = "btnCondoCMA";
             this.btnCondoCMA.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnCondoCMA_Click);
             // 
+            // group7
+            // 
+            this.group7.Items.Add(this.btnBuyerDetachedReport);
+            this.group7.Items.Add(this.button8);
+            this.group7.Label = "Deals for the Buyer";
+            this.group7.Name = "group7";
+            // 
+            // btnBuyerDetachedReport
+            // 
+            this.btnBuyerDetachedReport.Label = "Buyer Detached";
+            this.btnBuyerDetachedReport.Name = "btnBuyerDetachedReport";
+            this.btnBuyerDetachedReport.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnBuyerDetachedReport_Click);
+            // 
+            // button8
+            // 
+            this.button8.Label = "Buyer Attached";
+            this.button8.Name = "button8";
+            // 
+            // group3
+            // 
+            this.group3.Items.Add(this.button1);
+            this.group3.Items.Add(this.button2);
+            this.group3.Label = "Condo Monthly";
+            this.group3.Name = "group3";
+            // 
+            // button1
+            // 
+            this.button1.Label = "All Cities";
+            this.button1.Name = "button1";
+            // 
+            // button2
+            // 
+            this.button2.Label = "All Communities";
+            this.button2.Name = "button2";
+            // 
+            // group2
+            // 
+            this.group2.Items.Add(this.btnTownhouseAllCities);
+            this.group2.Items.Add(this.btnTownhouseAllCommunities);
+            this.group2.Label = "Townhouse Monthly";
+            this.group2.Name = "group2";
+            // 
+            // btnTownhouseAllCities
+            // 
+            this.btnTownhouseAllCities.Label = "All Cities";
+            this.btnTownhouseAllCities.Name = "btnTownhouseAllCities";
+            // 
+            // btnTownhouseAllCommunities
+            // 
+            this.btnTownhouseAllCommunities.Label = "All Commnities";
+            this.btnTownhouseAllCommunities.Name = "btnTownhouseAllCommunities";
+            // 
+            // group1
+            // 
+            this.group1.Items.Add(this.btnDetachedAllCities);
+            this.group1.Items.Add(this.btnDetachedMonthlyCommunities);
+            this.group1.Label = "Detached Monthly";
+            this.group1.Name = "group1";
+            // 
+            // btnDetachedAllCities
+            // 
+            this.btnDetachedAllCities.Label = "All Cities";
+            this.btnDetachedAllCities.Name = "btnDetachedAllCities";
+            this.btnDetachedAllCities.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnDetachedMonthlyCities_Click);
+            // 
+            // btnDetachedMonthlyCommunities
+            // 
+            this.btnDetachedMonthlyCommunities.Label = "All Communities";
+            this.btnDetachedMonthlyCommunities.Name = "btnDetachedMonthlyCommunities";
+            this.btnDetachedMonthlyCommunities.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnDetachedMonthlyCommunities_Click);
+            // 
             // group5
             // 
             this.group5.Items.Add(this.button3);
@@ -210,23 +228,6 @@
             this.button7.Label = "Price Sold Top10";
             this.button7.Name = "button7";
             // 
-            // group7
-            // 
-            this.group7.Items.Add(this.button5);
-            this.group7.Items.Add(this.button8);
-            this.group7.Label = "Deals for the Buyer";
-            this.group7.Name = "group7";
-            // 
-            // button5
-            // 
-            this.button5.Label = "Buyer Detached";
-            this.button5.Name = "button5";
-            // 
-            // button8
-            // 
-            this.button8.Label = "Buyer Attached";
-            this.button8.Name = "button8";
-            // 
             // Ribbon1
             // 
             this.Name = "Ribbon1";
@@ -235,20 +236,20 @@
             this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.Ribbon1_Load);
             this.tab1.ResumeLayout(false);
             this.tab1.PerformLayout();
-            this.group1.ResumeLayout(false);
-            this.group1.PerformLayout();
-            this.group2.ResumeLayout(false);
-            this.group2.PerformLayout();
-            this.group3.ResumeLayout(false);
-            this.group3.PerformLayout();
             this.group4.ResumeLayout(false);
             this.group4.PerformLayout();
             this.group6.ResumeLayout(false);
             this.group6.PerformLayout();
-            this.group5.ResumeLayout(false);
-            this.group5.PerformLayout();
             this.group7.ResumeLayout(false);
             this.group7.PerformLayout();
+            this.group3.ResumeLayout(false);
+            this.group3.PerformLayout();
+            this.group2.ResumeLayout(false);
+            this.group2.PerformLayout();
+            this.group1.ResumeLayout(false);
+            this.group1.PerformLayout();
+            this.group5.ResumeLayout(false);
+            this.group5.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -266,9 +267,9 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button1;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button2;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group4;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnDetachedCMA;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button4;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnCMAAll;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnDetachedSoldCMA;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnDetachedActiveCMA;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnAllCMA;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group6;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btmCondoSold;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnCondoActive;
@@ -278,7 +279,7 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button6;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button7;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group7;
-        internal Microsoft.Office.Tools.Ribbon.RibbonButton button5;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton btnBuyerDetachedReport;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button8;
     }
 

@@ -36,7 +36,8 @@ namespace ListingBook2016
             report.AllCommunities();
         }
 
-        #region CMA.REPORTS
+        #region RESIDENTIAL.ATTCHED.PROPERTY.CMA.REPORTS
+        //RESIDENTIAL.ATTACHED.PROPERTY
         private void btmCondoSold_Click(object sender, RibbonControlEventArgs e)
         {
             ReportCMA cma = new ReportCMA(Globals.ThisAddIn.Application.Worksheets[CMADataSheet], ReportType.CMAAttached);
@@ -56,26 +57,37 @@ namespace ListingBook2016
             try { cma.Residential(ListingStatus.Active); } catch (Exception ex) { };
             try { cma.Residential(ListingStatus.OffMarket); } catch (Exception ex) { };
         }
+        #endregion
 
-        private void btnDetachedCMA_Click(object sender, RibbonControlEventArgs e)
+        #region RESIDENTIAL.DETACHED.PROPERTY.CMA.REPORTS
+        //RESIDENTIAL.DETACHED
+        //SOLD
+        private void btnDetachedSoldCMA_Click(object sender, RibbonControlEventArgs e)
         {
             ReportCMA cma = new ReportCMA(Globals.ThisAddIn.Application.Worksheets[CMADataSheet], ReportType.CMADetached);
             cma.Residential(ListingStatus.Sold);
         }
+        //ACTIVE
+        private void btnDetachedActiveCMA_Click(object sender, RibbonControlEventArgs e)
+        {
+            ReportCMA cma = new ReportCMA(Globals.ThisAddIn.Application.Worksheets[CMADataSheet], ReportType.CMADetached);
+            cma.Residential(ListingStatus.Active);
+        }
+        //SOLD, ACTIVE. OFFMARKET
+        private void btnDetachedAllCMA_Click(object sender, RibbonControlEventArgs e)
+        {
+            ReportCMA cma = new ReportCMA(Globals.ThisAddIn.Application.Worksheets[CMADataSheet], ReportType.CMADetached);
+            try { cma.Residential(ListingStatus.Sold); } catch (Exception ex) { };
+            try { cma.Residential(ListingStatus.Active); } catch (Exception ex) { };
+            try { cma.Residential(ListingStatus.OffMarket); } catch (Exception ex) { };
+        }
+
 
         #endregion
 
-        private void btnCMAAll_Click(object sender, RibbonControlEventArgs e)
+        private void btnBuyerDetachedReport_Click(object sender, RibbonControlEventArgs e)
         {
-            ReportCMA cma = new ReportCMA(Globals.ThisAddIn.Application.Worksheets[CMADataSheet], ReportType.CMADetached);
-            cma.Residential(ListingStatus.Sold);
-            cma.Residential(ListingStatus.Active);
-        }
 
-        private void button4_Click(object sender, RibbonControlEventArgs e)
-        {
-            ReportCMA cma = new ReportCMA(Globals.ThisAddIn.Application.Worksheets[CMADataSheet], ReportType.CMADetached);
-            cma.Residential(ListingStatus.Active);
         }
     }
 }

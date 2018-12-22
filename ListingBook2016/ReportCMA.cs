@@ -25,7 +25,7 @@ namespace ListingBook2016
             int PivotTableTopPaddingRows = 5;
             string PivotSheetName = "PivotSheet";
             string PivotTableName = "";
-            PivotTableCMA lpt = null;
+            PivotTableCMA ptCMA = null;
 
             //DATA VALICATE
             ListingSheet.Activate();
@@ -39,16 +39,19 @@ namespace ListingBook2016
             //PIVOT TABLE
             PivotTableName = "PivotTable_" + Status;
             Globals.ThisAddIn.Application.ScreenUpdating = true;
-            lpt = new PivotTableCMA(PivotSheetName, PivotTableTopPaddingRows, PivotTableName, Status, CMAReportType);
-            this.PivotSheet = lpt.PivotSheet;
-            lpt.Format(lpt.PivotSheet, PivotTableName, (char)Status, "");
-            lpt.AddMedianSummary(lpt.PivotSheet, PivotTableName, (char)Status);
+            ptCMA = new PivotTableCMA(PivotSheetName, PivotTableTopPaddingRows, PivotTableName, Status, CMAReportType);
+            if (ptCMA.ListingDataRows <= 0) return;
+
+            ptCMA.Create();
+            this.PivotSheet = ptCMA.PivotSheet;
+            ptCMA.Format(ptCMA.PivotSheet, PivotTableName, Status, "");
+            ptCMA.AddMedianSummary(ptCMA.PivotSheet, PivotTableName, Status);
             //Globals.ThisAddIn.Application.ScreenUpdating = true;
-            lpt.AddCorCoeSummary_Attached(lpt.PivotSheet, ListingSheet);
-            lpt.AddDisclaimer(lpt.PivotSheet);
+            ptCMA.AddCorCoeSummary_Attached(ptCMA.PivotSheet, ListingSheet);
+            ptCMA.AddDisclaimer(ptCMA.PivotSheet);
             this.AddCMATitle(PivotSheet, "CMA REPORT");
             this.AddCMASubTitle(PivotSheet, "Peter Qu");
-            lpt.PivotSheet.Select();
+            ptCMA.PivotSheet.Select();
         }
         public void AddCMATitle(Excel.Worksheet WS, string Title)
         {

@@ -296,7 +296,7 @@ namespace ListingBook2016
             cell.EntireRow.Hidden = true;
         }
 
-        public void AddMedianSummary(Excel.Worksheet TableSheet, string TableName, char Status)
+        public void AddMedianSummary(Excel.Worksheet TableSheet, string TableName, ListingStatus Status)
         {
             int lastRow = 0;
             int firstRow = 0;

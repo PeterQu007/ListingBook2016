@@ -12,9 +12,10 @@ namespace ListingBook2016
     {
         private static readonly bool bShowUnitNoTrue = true;
         public PivotTableCMA(string pvSheetName, int TopPadding, string TableName, ListingStatus Status, ReportType cmaType)
-                : base(pvSheetName, TopPadding, TableName, Status, bShowUnitNoTrue)
+                : base(pvSheetName, TopPadding, TableName, Status)
         {
-            this.rptType = cmaType;
+            ReportType = cmaType;
+            bShowUnitNo = bShowUnitNoTrue && (ReportType.ToString().IndexOf("Attached") > 0);
         }
 
         public void AddComparableCreteria(){
@@ -29,39 +30,56 @@ namespace ListingBook2016
         public Excel.Worksheet PivotSheet;
         public Excel.Worksheet ListingSheet;
         public Excel.Workbook ListingBook;
+        public int ListingDataRows;
         private string PivotSheetName;
         private string PivotTableName;
         private int PivotTableTopPaddingRows;
         private string PivotTableLocation;
         private char Status;
-        private bool bShowUnitNo;
-        protected ReportType rptType;
-        public PivotTableListingStatus(string pvSheetName, int TopPadding, string TableName, ListingStatus Status, bool bShowUnitNo)
+        protected bool bShowUnitNo;
+        protected ReportType ReportType;
+        public PivotTableListingStatus(string pvSheetName, int TopPadding, string TableName, ListingStatus Status)
         {
             this.PivotSheetName = pvSheetName;
             this.PivotTableName = TableName;
             this.PivotTableTopPaddingRows = TopPadding;
             this.Status = (char)Status; //Library.GetStatus(Status);
-            this.bShowUnitNo = bShowUnitNo && (rptType.ToString().IndexOf("Attached")>0);
+
             this.ListingSheet = Globals.ThisAddIn.Application.Worksheets["Listings Table"];
             this.ListingBook = Globals.ThisAddIn.Application.ActiveWorkbook;
             this.ListingSheet.AutoFilterMode = false;
-            if (!Library.SheetExist(PivotSheetName))
+
+            //TEST FILTERS IF NO RECORDS THEN PASS PIVOT TABLE FUNCTION
+            int iCol = ListingSheet.Range[ListingDataColNames.Status + "1"].Column;
+            string[] StatusArray = Library.StatusArray(Status);
+            ListingSheet.Range["A1"].AutoFilter(iCol, StatusArray, Excel.XlAutoFilterOperator.xlFilterValues);
+            int LastRow = Library.GetLastRow(ListingSheet);
+            if (LastRow > 1)
             {
-                Excel.Worksheet NewSheet = Globals.ThisAddIn.Application.Worksheets.Add();
-                NewSheet.Name = PivotSheetName;
+                ListingDataRows = LastRow - 1;
+                if (!Library.SheetExist(PivotSheetName))
+                {
+                    Excel.Worksheet NewSheet = Globals.ThisAddIn.Application.Worksheets.Add();
+                    NewSheet.Name = PivotSheetName;
+                }
+                PivotSheet = Globals.ThisAddIn.Application.Worksheets[PivotSheetName];
+                PivotSheet.Activate();
+                int PivotTableFirstRow = Library.GetLastRow(PivotSheet) + PivotTableTopPaddingRows;
+                this.PivotTableLocation = "A" + PivotTableFirstRow;
+            }else
+            {
+                ListingDataRows = 0;
             }
-            PivotSheet = Globals.ThisAddIn.Application.Worksheets[PivotSheetName];
-            PivotSheet.Activate();
-            int PivotTableFirstRow = Library.GetLastRow(PivotSheet) + PivotTableTopPaddingRows;
-            this.PivotTableLocation = "A" + PivotTableFirstRow;
-
-            this.Create(PivotSheet, PivotTableLocation, PivotTableName, this.Status);
-
+            
         }
 
-        public void Create(Excel.Worksheet PivotSheet, string Location, string TableName, char Status)
+        public void Create()
         {
+            Excel.Worksheet PivotSheet = this.PivotSheet;
+            string Location = this.PivotTableLocation;
+            string TableName = this.PivotTableName;
+            char Status = this.Status;
+
             ListingSheet.Select();
             string LastRow = "";
             string LastCol = "";
@@ -108,12 +126,12 @@ namespace ListingBook2016
             pvt.PivotFields("S/A").Name = "Neighborhood";
             //Group 2 Complex
             pvt.PivotFields("Complex/Subdivision").Orientation = Excel.XlPivotFieldOrientation.xlRowField;
-            pvt.PivotFields("Complex/Subdivision").Name = this.rptType.ToString().IndexOf("Detached") < 0 ? "Complex" : "SubDivision";
+            pvt.PivotFields("Complex/Subdivision").Name = this.ReportType.ToString().IndexOf("Detached") < 0 ? "Complex" : "SubDivision";
             //Group 3 Address
             pvt.PivotFields("Address2").Orientation = Excel.XlPivotFieldOrientation.xlRowField;
             pvt.PivotFields("Address2").Name = "Civic Address";
             //Group 4 UnitNo
-            if (this.bShowUnitNo || this.rptType.ToString().IndexOf("Detached")<0)
+            if (this.bShowUnitNo || this.ReportType.ToString().IndexOf("Detached")<0)
             {
                 pvt.PivotFields("Unit#").Orientation = Excel.XlPivotFieldOrientation.xlRowField;
                 pvt.PivotFields("Unit#").Name = "Unit No";
@@ -125,7 +143,7 @@ namespace ListingBook2016
             pvt.AddDataField(pvt.PivotFields("TotFlArea"), "Floor Area", Excel.XlConsolidationFunction.xlAverage);
             pvt.AddDataField(pvt.PivotFields("PrcSqft"), "$PSF", Excel.XlConsolidationFunction.xlAverage);
             pvt.AddDataField(pvt.PivotFields("Age"), "Building Age", Excel.XlConsolidationFunction.xlAverage);
-            if (this.rptType.ToString().IndexOf("Detached") < 0)
+            if (this.ReportType.ToString().IndexOf("Detached") < 0)
             {
                 pvt.AddDataField(pvt.PivotFields("StratMtFee"), "Monthly Fee", Excel.XlConsolidationFunction.xlAverage);
             }
@@ -143,7 +161,7 @@ namespace ListingBook2016
             pvt.PivotFields("Floor Area").NumberFormat = "0";
             pvt.PivotFields("$PSF").NumberFormat = "$#,##0";
             pvt.PivotFields("Building Age").NumberFormat = "0";
-            if (this.rptType.ToString().IndexOf("Detached") < 0)
+            if (this.ReportType.ToString().IndexOf("Detached") < 0)
             {
                 pvt.PivotFields("Monthly Fee").NumberFormat = "$#,##0";
             }
@@ -159,7 +177,7 @@ namespace ListingBook2016
 
         }
 
-        public void Format(Excel.Worksheet PivotSheet, string TableName, char Status, string City)
+        public void Format(Excel.Worksheet PivotSheet, string TableName, ListingStatus Status, string City)
         {
             Excel.PivotTable pvt = PivotSheet.PivotTables(TableName);
             int FirstRow = 0;
@@ -244,7 +262,7 @@ namespace ListingBook2016
             FormatMaxCells();
             FormatMinCells();
             
-            AddSectionTitle(PivotSheet, TableName, City + " " + (ListingStatus)Status + " Records:");
+            AddSectionTitle(PivotSheet, TableName, City + " " + Status + " Records:");
         }
 
         private void AddSubGroupBottomBorder(string PivotTableName)
@@ -305,7 +323,7 @@ namespace ListingBook2016
             PivotSheet.Columns[++FirstCol].ColumnWidth = 7.5;
             PivotSheet.Columns[++FirstCol].ColumnWidth = 7.5;
             PivotSheet.Columns[++FirstCol].ColumnWidth = 8.8;
-            if (this.rptType.ToString().IndexOf("Detached") < 0)
+            if (this.ReportType.ToString().IndexOf("Detached") < 0)
             {
                 PivotSheet.Columns[++FirstCol].ColumnWidth = 9.5;
                 PivotSheet.Columns[++FirstCol].ColumnWidth = 10.6;
@@ -337,7 +355,7 @@ namespace ListingBook2016
             cell.EntireRow.Hidden = true;
         }
 
-        public void AddMedianSummary(Excel.Worksheet TableSheet, string TableName, char Status)
+        public void AddMedianSummary(Excel.Worksheet TableSheet, string TableName, ListingStatus Status)
         {
             int lastRow = 0;
             int firstRow = 0;
@@ -379,7 +397,7 @@ namespace ListingBook2016
             //
             TableSheet.Cells[medianRow, ++rw].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.Age, Status, "", "");
             //
-            if (this.rptType.ToString().IndexOf("Detached") < 0)
+            if (this.ReportType.ToString().IndexOf("Detached") < 0)
             {
                 TableSheet.Cells[medianRow, ++rw].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.StratMtFee, Status, "", "");
             }else
