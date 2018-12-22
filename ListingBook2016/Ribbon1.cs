@@ -18,6 +18,8 @@ namespace ListingBook2016
             PublicReportDataSheet = ListingDataSheet.ParagonExport;
         }
 
+        #region MARKETING.REPORTS
+        //PUBLIC.MARKETING.REPORTS
         private void btnDetachedMonthlyCities_Click(object sender, RibbonControlEventArgs e)
         {
             ReportMonthlyDetached report = new ReportMonthlyDetached(Globals.ThisAddIn.Application.Worksheets[PublicReportDataSheet]);
@@ -35,6 +37,7 @@ namespace ListingBook2016
 
             report.AllCommunities();
         }
+        #endregion
 
         #region RESIDENTIAL.ATTCHED.PROPERTY.CMA.REPORTS
         //RESIDENTIAL.ATTACHED.PROPERTY
@@ -85,9 +88,22 @@ namespace ListingBook2016
 
         #endregion
 
+        #region BUYER.REPORTS
         private void btnBuyerDetachedReport_Click(object sender, RibbonControlEventArgs e)
         {
-
+            ReportBuyer buyerReport = new ReportBuyer(Globals.ThisAddIn.Application.Worksheets[CMADataSheet], ReportType.CMADetached);
+            try { buyerReport.Residential(ListingStatus.Active); } catch (Exception ex) { throw ex; };
+            try { buyerReport.Residential(ListingStatus.Sold); } catch (Exception ex) { throw ex; };
+            try { buyerReport.Residential(ListingStatus.OffMarket); } catch (Exception ex) { throw ex; };
         }
+
+        private void btnBuyerAttachedReport_Click(object sender, RibbonControlEventArgs e)
+        {
+            ReportBuyer buyerReport = new ReportBuyer(Globals.ThisAddIn.Application.Worksheets[CMADataSheet], ReportType.CMAAttached);
+            try { buyerReport.Residential(ListingStatus.Active); } catch (Exception ex) { throw ex; };
+            try { buyerReport.Residential(ListingStatus.Sold); } catch (Exception ex) { throw ex; };
+            try { buyerReport.Residential(ListingStatus.OffMarket); } catch (Exception ex) { throw ex; };
+        }
+        #endregion
     }
 }

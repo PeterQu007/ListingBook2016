@@ -151,6 +151,7 @@
             // 
             this.button8.Label = "Buyer Attached";
             this.button8.Name = "button8";
+            this.button8.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnBuyerAttachedReport_Click);
             // 
             // group3
             // 

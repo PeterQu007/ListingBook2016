@@ -154,6 +154,7 @@
   <ItemGroup>
     <Compile Include="PivotTableCities.cs" />
     <Compile Include="Library.cs" />
+    <Compile Include="PivotTableListingBuyer.cs" />
     <Compile Include="PivotTableListingStatus.cs" />
     <Compile Include="ReportCMA.cs" />
     <Compile Include="ReportMonthlyAttached.cs" />
@@ -201,6 +202,7 @@
     <Compile Include="ThisAddIn.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ReportBuyer.cs" />
     <None Include="ThisAddIn.Designer.xml">
       <DependentUpon>ThisAddIn.cs</DependentUpon>
     </None>

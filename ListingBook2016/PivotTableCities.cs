@@ -24,7 +24,7 @@ namespace ListingBook2016
             this.PivotSheetName = pvSheetName;
             this.PivotTableName = TableName;
             this.PivotTableTopPaddingRows = TopPadding;
-            this.ListingSheet = Globals.ThisAddIn.Application.Worksheets["Sheet1"];
+            this.ListingSheet = Globals.ThisAddIn.Application.Worksheets[ListingDataSheet.ParagonExport];
             this.ListingBook = Globals.ThisAddIn.Application.ActiveWorkbook;
             if (!Library.SheetExist(PivotSheetName))
             {
@@ -76,7 +76,8 @@ namespace ListingBook2016
                     RankBaseField = "City";
                     break;
                 case ReportType.MonthlyDetachedAllCommunities:
-                    pvt.PivotFields("Neighborhood").Orientation = Excel.XlPivotFieldOrientation.xlRowField;
+                    pvt.PivotFields("S/A").Orientation = Excel.XlPivotFieldOrientation.xlRowField;
+                    pvt.PivotFields("S/A").Caption = "Neighborhood";
                     RankBaseField = "Neighborhood";
                     break;
                 default:

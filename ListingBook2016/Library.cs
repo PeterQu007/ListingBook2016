@@ -36,7 +36,7 @@ namespace ListingBook2016
     }
 
     public static class ListingDataSheet{
-        public static string ParagonExport = "Sheet1";
+        public static string ParagonExport = "Spreadsheet";
         public static string MLSHelperExport = "Listings Table";
     }
 
