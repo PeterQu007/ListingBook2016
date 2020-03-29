@@ -82,7 +82,7 @@ namespace ListingBook2016
         private void btnDetachedAllCMA_Click(object sender, RibbonControlEventArgs e)
         {
             ReportCMA cma = new ReportCMA(Globals.ThisAddIn.Application.Worksheets[CMADataSheet], ReportType.CMADetached);
-            try { cma.Residential(ListingStatus.Sold); } catch (Exception ex) { };
+            try { cma.Residential(ListingStatus.Sold); } catch (Exception ex) { Debug.Write(ex); };
             try { cma.Residential(ListingStatus.Active); } catch (Exception ex) { };
             try { cma.Residential(ListingStatus.OffMarket); } catch (Exception ex) { };
         }

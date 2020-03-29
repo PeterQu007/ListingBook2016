@@ -57,11 +57,12 @@ namespace ListingBook2016
             if (LastRow > 1)
             {
                 ListingDataRows = LastRow - 1;
-                if (!Library.SheetExist(PivotSheetName))
-                {
-                    Excel.Worksheet NewSheet = Globals.ThisAddIn.Application.Worksheets.Add();
-                    NewSheet.Name = PivotSheetName;
-                }
+                //if (Library.SheetExist(PivotSheetName))
+                //{
+                //    Globals.ThisAddIn.Application.Worksheets[PivotSheetName].Delete();
+                //}
+                //Excel.Worksheet NewSheet = Globals.ThisAddIn.Application.Worksheets.Add();
+                //NewSheet.Name = PivotSheetName;
                 PivotSheet = Globals.ThisAddIn.Application.Worksheets[PivotSheetName];
                 PivotSheet.Activate();
                 int PivotTableFirstRow = Library.GetLastRow(PivotSheet) + PivotTableTopPaddingRows;
