@@ -127,6 +127,12 @@ namespace ListingBook2016
         public static string Sell_Sales_Rep_2_Agent_Name = "BN";
         public static string Owner_Name = "BO";
         public static string Buyer = "BP";
+        //ADD New Columns for lot price/square feet, improve price/square feet
+        public static string LotValuePercentageOfBCA = "BQ";
+        public static string LotValueMarketAssessment = "BR";
+        public static string ImproveValueMarketAssessment = "BS";
+        public static string LotPricePerSquareFeet = "BT";
+        public static string ImproveValuePerSquareFeet = "BU";
     }
     public class DataProcessing
     {
@@ -185,6 +191,128 @@ namespace ListingBook2016
             //Globals.ThisAddIn.Application.ScreenUpdating = true;
             //Globals.ThisAddIn.Application.DisplayAlerts = true;
             return bStop;
+        }
+
+        public bool AddLotAndImproveUnitPrice()
+        {
+            Excel.Range last = ListingSheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing);
+
+            int LastRow = last.Row;
+            bool bAdded = false;
+            string ColIndex = ListingDataColNames.LotValuePercentageOfBCA;
+
+            Excel.Range TopCell = ListingSheet.Cells[2, ColIndex];
+            TopCell.Select();
+            Excel.Range BottomCell = ListingSheet.Cells[LastRow, ColIndex];
+            Excel.Range Cell = null;
+            Excel.Range rng = null;
+            
+            Cell = ListingSheet.Cells[1, ListingDataColNames.LotValuePercentageOfBCA];
+            Cell.Value2 = "Lot%";
+            ListingSheet.Cells[1, ListingDataColNames.LotValueMarketAssessment].Value = "Lot$ Market";
+            ListingSheet.Cells[1, ListingDataColNames.ImproveValueMarketAssessment].Value = "Improve$ Market";
+            ListingSheet.Cells[1, ListingDataColNames.LotPricePerSquareFeet].Value = "Lot$ PerSF";
+            ListingSheet.Cells[1, ListingDataColNames.ImproveValuePerSquareFeet].Value = "Improve$ PerSF";
+
+            rng = ListingSheet.Range[TopCell, BottomCell];
+            rng.Select();
+
+            double lotMarket = 0;
+
+            foreach(Excel.Range c in rng)
+            {
+                try
+                {
+                    lotMarket = ListingSheet.Cells[c.Row, ListingDataColNames.LandValue].Value2 / ListingSheet.Cells[c.Row.ToString(), ListingDataColNames.BCAValue].Value2;
+                    c.Value2 = lotMarket;
+                }
+                catch (Exception e)
+                {
+                    c.Value2 = e.Message;
+                }
+            }
+
+            ColIndex = ListingDataColNames.LotValueMarketAssessment;
+            TopCell = ListingSheet.Cells[2, ColIndex];
+            BottomCell = ListingSheet.Cells[LastRow, ColIndex];
+            rng = ListingSheet.Range[TopCell, BottomCell];
+            foreach (Excel.Range c in rng)
+            {
+                try
+                {
+                    lotMarket = ListingSheet.Cells[c.Row, ListingDataColNames.Price].Value2
+                        * (ListingSheet.Cells[c.Row, ListingDataColNames.LandValue].Value2 / ListingSheet.Cells[c.Row.ToString(), ListingDataColNames.BCAValue].Value2);
+                    c.Value2 = lotMarket;
+
+                }
+                catch(Exception e)
+                {
+                    c.Value2 = e.Message;
+                }
+            }
+
+            ColIndex = ListingDataColNames.ImproveValueMarketAssessment;
+            TopCell = ListingSheet.Cells[2, ColIndex];
+            BottomCell = ListingSheet.Cells[LastRow, ColIndex];
+            rng = ListingSheet.Range[TopCell, BottomCell];
+            foreach (Excel.Range c in rng)
+            {
+                try
+                {
+                    lotMarket = ListingSheet.Cells[c.Row, ListingDataColNames.Price].Value2 - ListingSheet.Cells[c.Row, ListingDataColNames.LotValueMarketAssessment].Value2;
+                    c.Value2 = lotMarket;
+                }
+                catch(Exception e)
+                {
+                    c.Value2 = e.Message;
+                }
+            }
+            //Lot Value Per Square Feet
+            //Strata Property Use: Lot Market Value / Total Floor Area
+            //Single House Use: Lot Market Value / Lot Size
+            ColIndex = ListingDataColNames.LotPricePerSquareFeet;
+            TopCell = ListingSheet.Cells[2, ColIndex];
+            BottomCell = ListingSheet.Cells[LastRow, ColIndex];
+            rng = ListingSheet.Range[TopCell, BottomCell];
+            foreach (Excel.Range c in rng)
+            {
+                try
+                {
+                    if (ListingSheet.Cells[c.Row, ListingDataColNames.TypeDwel].Value2 == "HOUSE" || ListingSheet.Cells[c.Row, ListingDataColNames.Lot_Sz_Sq_Ft].Value2 != 0)
+                    {
+                        lotMarket = ListingSheet.Cells[c.Row, ListingDataColNames.LotValueMarketAssessment].Value2 / ListingSheet.Cells[c.Row, ListingDataColNames.Lot_Sz_Sq_Ft].Value2;
+                    }
+                    else
+                    {
+                        lotMarket = ListingSheet.Cells[c.Row, ListingDataColNames.LotValueMarketAssessment].Value2 / ListingSheet.Cells[c.Row, ListingDataColNames.FlArTotFin].Value2;
+                    }
+                    c.Value2 = lotMarket;
+                }
+                catch (Exception e)
+                {
+                    c.Value2 = e.Message;
+                    Console.WriteLine(e.Message);
+                }
+            }
+
+            ColIndex = ListingDataColNames.ImproveValuePerSquareFeet;
+            TopCell = ListingSheet.Cells[2, ColIndex];
+            BottomCell = ListingSheet.Cells[LastRow, ColIndex];
+            rng = ListingSheet.Range[TopCell, BottomCell];
+            foreach (Excel.Range c in rng)
+            {
+                try
+                {
+                    lotMarket = ListingSheet.Cells[c.Row, ListingDataColNames.ImproveValueMarketAssessment].Value2 / ListingSheet.Cells[c.Row, ListingDataColNames.FlArTotFin].Value2;
+                    c.Value2 = lotMarket;
+                }
+                catch (Exception e)
+                {
+                    c.Value2 = e.Message;
+                }
+            }
+
+            return bAdded;
         }
         public bool ValidateColumnBlankCell(string ColIndex)
         {
@@ -272,7 +400,7 @@ namespace ListingBook2016
     public static class Library
 
     {
-
+        
         public static bool SheetExist(string SheetName)
         {
             foreach (Excel.Worksheet sheet in Globals.ThisAddIn.Application.Worksheets)
@@ -357,7 +485,15 @@ namespace ListingBook2016
             {
                 firstRow = Sheet.Range["A2:A" + lastRow].SpecialCells(Excel.XlCellType.xlCellTypeVisible).Row;
                 rng = Sheet.Range[ColLabel + firstRow + ":" + ColLabel + lastRow];
-                MedianValue = Globals.ThisAddIn.Application.WorksheetFunction.Aggregate(12, 1, rng);
+                try
+                {
+                    MedianValue = Globals.ThisAddIn.Application.WorksheetFunction.Aggregate(12, 1, rng);
+                }
+                catch(Exception e)
+                {
+                    MedianValue = 0;
+                    Console.WriteLine(e.Message);
+                }
             }
             return Math.Round(MedianValue, 3);
 

@@ -1,0 +1,7 @@
+﻿1. Excel Events using C# DOT NET VSTO : http://blogs.infoextract.in/excel-events-using-c-dot-net/
+2. Get Excel File Name : https://stackoverflow.com/questions/11955096/getting-the-name-of-a-excel-file
+3. Equivalent of "Like" operator in C# - 
+
+			if (lbl.Text.StartWith("hr")==true ) {…}
+4. Delete a column: 
+			sheet.Columns["B"].Delete();

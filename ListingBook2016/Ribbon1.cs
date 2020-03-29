@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +11,9 @@ namespace ListingBook2016
     public partial class Ribbon1
     {
         System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Ribbon1));
-        string CMADataSheet = string.Empty;
-        string PublicReportDataSheet = string.Empty;
+        public string CMADataSheet = string.Empty;
+        public string PublicReportDataSheet = string.Empty;
+        public string ReportDataSheet = string.Empty;
         private void Ribbon1_Load(object sender, RibbonUIEventArgs e)
         {
             CMADataSheet = ListingDataSheet.MLSHelperExport;
@@ -55,10 +57,10 @@ namespace ListingBook2016
 
         private void btnCondoCMA_Click(object sender, RibbonControlEventArgs e)
         {
-            ReportCMA cma = new ReportCMA(Globals.ThisAddIn.Application.Worksheets[CMADataSheet], ReportType.CMAAttached);
-            try { cma.Residential(ListingStatus.Sold); } catch (Exception ex) { };
-            try { cma.Residential(ListingStatus.Active); } catch (Exception ex) { };
-            try { cma.Residential(ListingStatus.OffMarket); } catch (Exception ex) { };
+            ReportCMA cma = new ReportCMA(Globals.ThisAddIn.Application.Worksheets[CMADataSheet], ReportType.CMAAttached, chkBoxLanguage.Checked ? "Chinese" : "English");
+            try { cma.Residential(ListingStatus.Sold); } catch (Exception ex) { Debug.Write(ex); };
+            try { cma.Residential(ListingStatus.Active); } catch (Exception ex) { Debug.Write(ex); };
+            try { cma.Residential(ListingStatus.OffMarket); } catch (Exception ex) { Debug.Write(ex); };
         }
         #endregion
 
@@ -89,9 +91,10 @@ namespace ListingBook2016
         #endregion
 
         #region BUYER.REPORTS
+        //BUYER.REPORTS
         private void btnBuyerDetachedReport_Click(object sender, RibbonControlEventArgs e)
         {
-            ReportBuyer buyerReport = new ReportBuyer(Globals.ThisAddIn.Application.Worksheets[CMADataSheet], ReportType.CMADetached);
+            ReportBuyer buyerReport = new ReportBuyer(Globals.ThisAddIn.Application.Worksheets[ReportDataSheet], ReportType.CMADetached);
             try { buyerReport.Residential(ListingStatus.Active); } catch (Exception ex) { throw ex; };
             try { buyerReport.Residential(ListingStatus.Sold); } catch (Exception ex) { throw ex; };
             try { buyerReport.Residential(ListingStatus.OffMarket); } catch (Exception ex) { throw ex; };
@@ -99,7 +102,7 @@ namespace ListingBook2016
 
         private void btnBuyerAttachedReport_Click(object sender, RibbonControlEventArgs e)
         {
-            ReportBuyer buyerReport = new ReportBuyer(Globals.ThisAddIn.Application.Worksheets[CMADataSheet], ReportType.CMAAttached);
+            ReportBuyer buyerReport = new ReportBuyer(Globals.ThisAddIn.Application.Worksheets[ReportDataSheet], ReportType.CMAAttached);
             try { buyerReport.Residential(ListingStatus.Active); } catch (Exception ex) { throw ex; };
             try { buyerReport.Residential(ListingStatus.Sold); } catch (Exception ex) { throw ex; };
             try { buyerReport.Residential(ListingStatus.OffMarket); } catch (Exception ex) { throw ex; };

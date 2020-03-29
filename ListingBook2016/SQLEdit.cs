@@ -50,7 +50,7 @@ namespace ListingBook2016
                     for (var i = 1; i < dt.Columns.Count + 1; i++)
                     {
                         // Add the header the first time through 
-                        if (rowCount == 2)
+                        if (rowCount == 1)
                         {
                             // Add the Columns using the foreach i++ to get the cell references
                             if (sht != null) sht.Cells[1, i] = dt.Columns[i - 1].ColumnName;
@@ -58,7 +58,7 @@ namespace ListingBook2016
                         // Increment value in the Progress Bar
                         progressBarGetData.Value = rowCount;
                         // Add the Columns using the foreach i++ to get the cell references
-                        if (sht != null) sht.Cells[rowCount, i] = dr[i - 1].ToString();
+                        if (sht != null) sht.Cells[rowCount+1, i] = dr[i - 1].ToString();
                         // Refresh the Progress Bar
                         progressBarGetData.Refresh();
                     }

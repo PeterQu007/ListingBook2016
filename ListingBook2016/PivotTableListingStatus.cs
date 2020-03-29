@@ -125,8 +125,8 @@ namespace ListingBook2016
             pvt.PivotFields("S/A").Orientation = Excel.XlPivotFieldOrientation.xlRowField;
             pvt.PivotFields("S/A").Name = "Neighborhood";
             //Group 2 Complex
-            pvt.PivotFields("Complex/Subdivision").Orientation = Excel.XlPivotFieldOrientation.xlRowField;
-            pvt.PivotFields("Complex/Subdivision").Name = this.ReportType.ToString().IndexOf("Detached") < 0 ? "Complex" : "SubDivision";
+            pvt.PivotFields("Complex/Subdivision Name").Orientation = Excel.XlPivotFieldOrientation.xlRowField;
+            pvt.PivotFields("Complex/Subdivision Name").Name = this.ReportType.ToString().IndexOf("Detached") < 0 ? "Complex" : "SubDivision";
             //Group 3 Address
             pvt.PivotFields("Address2").Orientation = Excel.XlPivotFieldOrientation.xlRowField;
             pvt.PivotFields("Address2").Name = "Civic Address";
@@ -142,6 +142,12 @@ namespace ListingBook2016
             pvt.AddDataField(pvt.PivotFields("CDOM"), "Days On Mkt", Excel.XlConsolidationFunction.xlAverage);
             pvt.AddDataField(pvt.PivotFields("TotFlArea"), "Floor Area", Excel.XlConsolidationFunction.xlAverage);
             pvt.AddDataField(pvt.PivotFields("PrcSqft"), "$PSF", Excel.XlConsolidationFunction.xlAverage);
+            //TEST Add Calculated Fields
+            //Excel.PivotField ptField;
+            //Excel.CalculatedFields cfField = pvt.CalculatedFields();
+            //ptField = cfField.Add("New PSF", "='PrcSqft' * 'Age'", true);
+            //pvt.AddDataField(ptField, " New PSF", Excel.XlConsolidationFunction.xlAverage);
+            //
             pvt.AddDataField(pvt.PivotFields("Age"), "Building Age", Excel.XlConsolidationFunction.xlAverage);
             if (this.ReportType.ToString().IndexOf("Detached") < 0)
             {
@@ -155,6 +161,8 @@ namespace ListingBook2016
 
             pvt.AddDataField(pvt.PivotFields("BCAValue"), "BC Assess.", Excel.XlConsolidationFunction.xlAverage);
             pvt.AddDataField(pvt.PivotFields("Change%"), "Chg% to BCA", Excel.XlConsolidationFunction.xlAverage);
+            pvt.AddDataField(pvt.PivotFields("Lot$ PerSF"), "Lot$PSF", Excel.XlConsolidationFunction.xlAverage);
+            pvt.AddDataField(pvt.PivotFields("Improve$ PerSF"), "Improve$PSF", Excel.XlConsolidationFunction.xlAverage);
 
             pvt.PivotFields("Price").NumberFormat = "$#,##0";
             pvt.PivotFields("Days On Mkt").NumberFormat = "0";
@@ -172,6 +180,8 @@ namespace ListingBook2016
             }
             pvt.PivotFields("BC Assess.").NumberFormat = "$#,##0";
             pvt.PivotFields("Chg% to BCA").NumberFormat = "0%";
+            pvt.PivotFields("Lot$PSF").NumberFormat = "$#,##0";
+            pvt.PivotFields("Improve$PSF").NumberFormat = "$#,##0";
 
             pvt.RowAxisLayout(Excel.XlLayoutRowType.xlTabularRow);
 
@@ -410,6 +420,9 @@ namespace ListingBook2016
             TableSheet.Cells[medianRow, ++rw].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.BCAValue, Status, "", "");
             //
             TableSheet.Cells[medianRow, ++rw].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.Change_Percent, Status, "", "");
+            //
+            TableSheet.Cells[medianRow, ++rw].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.LotPricePerSquareFeet, Status, "", "");
+            TableSheet.Cells[medianRow, ++rw].Value = Library.GetMedianValue(ListingSheet, ListingDataColNames.ImproveValuePerSquareFeet, Status, "", "");
 
             TableSheet.Select();
             lastCol = pvt.TableRange1.Columns.Count;

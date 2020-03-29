@@ -21,6 +21,13 @@ namespace ListingBook2016
         private ListingStatus Status;
         protected bool bShowUnitNo;
         protected ReportType ReportType;
+        private string colMLS;
+        private string colLandValue;
+        private string colBuildingValue;
+        private string colTotalValue;
+        private string colChangePer;
+        private string colPrice;
+        private string colTotalFloorArea;
         public PivotTableListingBuyer(string pvSheetName, int TopPadding, string TableName, ListingStatus Status, ReportType BuyerReportType)
         {
             this.PivotSheetName = pvSheetName;
@@ -29,7 +36,29 @@ namespace ListingBook2016
             this.Status = Status; //Library.GetStatus(Status);
             this.ReportType = BuyerReportType;
 
-            this.ListingSheet = Globals.ThisAddIn.Application.Worksheets["Listings Table"];
+            switch (Globals.Ribbons.Ribbon1.ReportDataSheet)
+            {
+                case "Spreadsheet":
+                    colMLS = "ML #";
+                    colLandValue = "Room28Dim1";
+                    colBuildingValue = "Room28Dim2";
+                    colTotalValue = "Room28Lev";
+                    colChangePer = "Room28Type";
+                    colPrice = "Price";
+                    colTotalFloorArea = "FlArTotFin";
+                    break;
+                case "Listings Table":
+                    colMLS = "MLS";
+                    colLandValue = "LandValue";
+                    colBuildingValue = "ImproveValue";
+                    colTotalValue = "BCAValue";
+                    colChangePer = "Change%";
+                    colPrice = "Price0";
+                    colTotalFloorArea = "FlArTotFin";
+                    break;
+            }
+
+            this.ListingSheet = Globals.ThisAddIn.Application.Worksheets[Globals.Ribbons.Ribbon1.ReportDataSheet];
             this.ListingBook = Globals.ThisAddIn.Application.ActiveWorkbook;
             this.ListingSheet.AutoFilterMode = false;
 
@@ -103,25 +132,26 @@ namespace ListingBook2016
                     pvf.EnableMultiplePageItems = true;
                     break;
             }
-            
 
+            //Group 0 City
+            pvt.PivotFields("City").Orientation = Excel.XlPivotFieldOrientation.xlRowField;
             //Group 1 S/A
             pvt.PivotFields("S/A").Orientation = Excel.XlPivotFieldOrientation.xlRowField;
             pvt.PivotFields("S/A").Name = "Neighborhood";
-            //Group 2 Complex
-            pvt.PivotFields("Complex/Subdivision").Orientation = Excel.XlPivotFieldOrientation.xlRowField;
-            pvt.PivotFields("Complex/Subdivision").Name = this.ReportType.ToString().IndexOf("Detached") < 0 ? "Complex" : "SubDivision";
+            ////Group 2 Complex
+            //pvt.PivotFields("Complex/Subdivision").Orientation = Excel.XlPivotFieldOrientation.xlRowField;
+            //pvt.PivotFields("Complex/Subdivision").Name = this.ReportType.ToString().IndexOf("Detached") < 0 ? "Complex" : "SubDivision";
             //Group 3 Address
-            pvt.PivotFields("Address2").Orientation = Excel.XlPivotFieldOrientation.xlRowField;
-            pvt.PivotFields("Address2").Name = "Civic Address";
-            //Group 4 MLS.NO
-            pvt.PivotFields("MLS").Orientation = Excel.XlPivotFieldOrientation.xlRowField;
-            pvt.PivotFields("MLS").Name = "MLS#";
+            pvt.PivotFields("Address").Orientation = Excel.XlPivotFieldOrientation.xlRowField;
+            pvt.PivotFields("Address").Name = "Civic Address";
+            ////Group 4 MLS.NO
+            pvt.PivotFields(colMLS).Orientation = Excel.XlPivotFieldOrientation.xlRowField;
+            pvt.PivotFields(colMLS).Name = "MLS#";
 
             pvt.AddDataField(pvt.PivotFields("DOM"), "Count", Excel.XlConsolidationFunction.xlCount);
-            pvt.AddDataField(pvt.PivotFields("Price0"), "Price", Excel.XlConsolidationFunction.xlAverage);
+            pvt.AddDataField(pvt.PivotFields(colPrice), "Price$", Excel.XlConsolidationFunction.xlAverage);
             pvt.AddDataField(pvt.PivotFields("CDOM"), "Days On Mkt", Excel.XlConsolidationFunction.xlAverage);
-            pvt.AddDataField(pvt.PivotFields("TotFlArea"), "Floor Area", Excel.XlConsolidationFunction.xlAverage);
+            pvt.AddDataField(pvt.PivotFields(colTotalFloorArea), "Floor Area", Excel.XlConsolidationFunction.xlAverage);
             pvt.AddDataField(pvt.PivotFields("PrcSqft"), "$PSF", Excel.XlConsolidationFunction.xlAverage);
             pvt.AddDataField(pvt.PivotFields("Age"), "Building Age", Excel.XlConsolidationFunction.xlAverage);
             if (this.ReportType.ToString().IndexOf("Detached") < 0)
@@ -131,13 +161,13 @@ namespace ListingBook2016
             else
             {
                 pvt.AddDataField(pvt.PivotFields("Lot Sz (Sq.Ft.)"), "Land Size", Excel.XlConsolidationFunction.xlAverage);
-                pvt.AddDataField(pvt.PivotFields("LandValue"), "Land Assess.", Excel.XlConsolidationFunction.xlAverage);
+                pvt.AddDataField(pvt.PivotFields(colLandValue), "Land Assess.", Excel.XlConsolidationFunction.xlAverage);
             }
 
-            pvt.AddDataField(pvt.PivotFields("BCAValue"), "BC Assess.", Excel.XlConsolidationFunction.xlAverage);
-            pvt.AddDataField(pvt.PivotFields("Change%"), "Chg% to BCA", Excel.XlConsolidationFunction.xlAverage);
+            pvt.AddDataField(pvt.PivotFields(colTotalValue), "BC Assess.", Excel.XlConsolidationFunction.xlAverage);
+            pvt.AddDataField(pvt.PivotFields(colChangePer), "Chg% to BCA", Excel.XlConsolidationFunction.xlAverage);
 
-            pvt.PivotFields("Price").NumberFormat = "$#,##0";
+            pvt.PivotFields("Price$").NumberFormat = "$#,##0";
             pvt.PivotFields("Days On Mkt").NumberFormat = "0";
             pvt.PivotFields("Floor Area").NumberFormat = "0";
             pvt.PivotFields("$PSF").NumberFormat = "$#,##0";
@@ -255,7 +285,7 @@ namespace ListingBook2016
                 PivotSheet.Columns["A"].ColumnWidth = 19.5;
                 PivotSheet.Columns["B"].ColumnWidth = 17;
                 PivotSheet.Columns["C"].ColumnWidth = 18.5;
-                PivotSheet.Columns["D"].ColumnWidth = 5;
+                PivotSheet.Columns["D"].ColumnWidth = 9;
             }
 
             int FirstCol = PivotSheet.PivotTables(1).ColumnRange.Column;

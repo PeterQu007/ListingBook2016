@@ -34,7 +34,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItemImpl1 = this.Factory.CreateRibbonDropDownItem();
+            Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItemImpl2 = this.Factory.CreateRibbonDropDownItem();
             this.tab1 = this.Factory.CreateRibbonTab();
+            this.group8 = this.Factory.CreateRibbonGroup();
+            this.comboBox1 = this.Factory.CreateRibbonComboBox();
+            this.group9 = this.Factory.CreateRibbonGroup();
+            this.chkBoxNewHomes = this.Factory.CreateRibbonCheckBox();
+            this.chkBoxLanguage = this.Factory.CreateRibbonCheckBox();
             this.group4 = this.Factory.CreateRibbonGroup();
             this.btnDetachedSoldCMA = this.Factory.CreateRibbonButton();
             this.btnDetachedActiveCMA = this.Factory.CreateRibbonButton();
@@ -60,6 +67,8 @@
             this.button6 = this.Factory.CreateRibbonButton();
             this.button7 = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
+            this.group8.SuspendLayout();
+            this.group9.SuspendLayout();
             this.group4.SuspendLayout();
             this.group6.SuspendLayout();
             this.group7.SuspendLayout();
@@ -72,6 +81,8 @@
             // tab1
             // 
             this.tab1.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
+            this.tab1.Groups.Add(this.group8);
+            this.tab1.Groups.Add(this.group9);
             this.tab1.Groups.Add(this.group4);
             this.tab1.Groups.Add(this.group6);
             this.tab1.Groups.Add(this.group7);
@@ -81,6 +92,39 @@
             this.tab1.Groups.Add(this.group5);
             this.tab1.Label = "TabAddIns";
             this.tab1.Name = "tab1";
+            // 
+            // group8
+            // 
+            this.group8.Items.Add(this.comboBox1);
+            this.group8.Label = "Subject Property";
+            this.group8.Name = "group8";
+            // 
+            // comboBox1
+            // 
+            ribbonDropDownItemImpl1.Label = "1346 Napier Place";
+            ribbonDropDownItemImpl2.Label = "1785 137A ST";
+            this.comboBox1.Items.Add(ribbonDropDownItemImpl1);
+            this.comboBox1.Items.Add(ribbonDropDownItemImpl2);
+            this.comboBox1.Label = "Address";
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Text = null;
+            // 
+            // group9
+            // 
+            this.group9.Items.Add(this.chkBoxNewHomes);
+            this.group9.Items.Add(this.chkBoxLanguage);
+            this.group9.Label = "Options";
+            this.group9.Name = "group9";
+            // 
+            // chkBoxNewHomes
+            // 
+            this.chkBoxNewHomes.Label = "New Homes";
+            this.chkBoxNewHomes.Name = "chkBoxNewHomes";
+            // 
+            // chkBoxLanguage
+            // 
+            this.chkBoxLanguage.Label = "Chinese";
+            this.chkBoxLanguage.Name = "chkBoxLanguage";
             // 
             // group4
             // 
@@ -237,6 +281,10 @@
             this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.Ribbon1_Load);
             this.tab1.ResumeLayout(false);
             this.tab1.PerformLayout();
+            this.group8.ResumeLayout(false);
+            this.group8.PerformLayout();
+            this.group9.ResumeLayout(false);
+            this.group9.PerformLayout();
             this.group4.ResumeLayout(false);
             this.group4.PerformLayout();
             this.group6.ResumeLayout(false);
@@ -282,6 +330,11 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group7;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnBuyerDetachedReport;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton button8;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup group8;
+        internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox chkBoxLanguage;
+        internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox chkBoxNewHomes;
+        internal Microsoft.Office.Tools.Ribbon.RibbonComboBox comboBox1;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup group9;
     }
 
     partial class ThisRibbonCollection

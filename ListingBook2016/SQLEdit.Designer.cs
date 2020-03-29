@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SQLEdit));
             this.panel1 = new System.Windows.Forms.Panel();
             this.progressBarGetData = new System.Windows.Forms.ProgressBar();
             this.buttonCloseTp = new System.Windows.Forms.Button();
@@ -89,7 +88,7 @@
             this.richTextBoxSQLEdit.Name = "richTextBoxSQLEdit";
             this.richTextBoxSQLEdit.Size = new System.Drawing.Size(606, 106);
             this.richTextBoxSQLEdit.TabIndex = 2;
-            this.richTextBoxSQLEdit.Text = resources.GetString("richTextBoxSQLEdit.Text");
+            this.richTextBoxSQLEdit.Text = "USE MLSDatabase\nSELECT  * FROM    dbo.CMA_List\n";
             // 
             // panel2
             // 
@@ -108,7 +107,7 @@
             this.textBoxCS.Name = "textBoxCS";
             this.textBoxCS.Size = new System.Drawing.Size(430, 20);
             this.textBoxCS.TabIndex = 1;
-            this.textBoxCS.Text = "Data Source=PQ-WORKSTATION;Initial Catalog=Northwind;Integrated Security=True";
+            this.textBoxCS.Text = "Data Source=PQ-WORKSTATION;Initial Catalog=MLSDatabase;Integrated Security=True";
             // 
             // label1
             // 

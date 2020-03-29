@@ -29,11 +29,11 @@ namespace ListingBook2016
 
             //DATA VALICATE
             ListingSheet.Activate();
-            if (dp.ValidateData(BuyerReportType))
-            {
-                Console.Write("Listing Data Needs To Be Reviewed");
-                return;
-            }
+            //if (dp.ValidateData(BuyerReportType))
+            //{
+            //    Console.Write("Listing Data Needs To Be Reviewed");
+            //    return;
+            //}
 
             /////////////////////
             //PIVOT TABLE

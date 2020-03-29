@@ -117,16 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="richTextBoxSQLEdit.Text" xml:space="preserve">
-    <value>USE MLSDatabase
-SELECT  TOP (100) PERCENT City, [S/A] + ' (' + City + ')' AS Neighborhood, Status, Address, DOM, FlArTotFin, Age, StratMtFee, 
-		PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY [Sold Price]) OVER (PARTITION BY City) AS MedianCont,
-        AVG([Sold Price]) OVER (PARTITION By City) AS AvgPrice,
-		[Sold Price], MAX([Sold Price]) OVER(PARTITION BY City) As MaxPrice,MIN([Sold Price]) OVER(PARTITION BY City) As MinPrice,
-		SUM([Sold Price]) OVER() AS TotalAmount,
-		[Lot Sz (SQ#Ft#)], [List Price], [SP Sqft] AS [Price Per SQFT], MONTH([Sold Date]) AS Sold_Month, MONTH([Entry Date]) AS [MONTH], CDOM, Area, PostalCode,
-		TypeDwel, [Prop Type]
-FROM    dbo.MetroVancouverAllClassSold
-Where [Title to Land] Like '%Freehold%' AND TypeDwel Like 'House%' AND [Prop Type] Like '%Detached' </value>
-  </data>
 </root>
