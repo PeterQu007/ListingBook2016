@@ -205,22 +205,30 @@ namespace ListingBook2016
             //Hide Values Row
             Excel.Range rng0 = PivotSheet.Range["A" + (FirstRow - 1)];
             rng0.EntireRow.Hidden = true;
+
+            rng0 = PivotSheet.Range["A" + (FirstRow-2)];
+            rng0.RowHeight = 32;
+            rng0.Font.Size = 24;
+
             Excel.Range c1 = PivotSheet.Cells[FirstRow, 1];
             Excel.Range c2 = PivotSheet.Cells[FirstRow, LastCol];
             Excel.Range rng = PivotSheet.Range[c1, c2];
             rng.Select();
-            //rng.Style.VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
-            //rng.Style.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
-            //rng.Style.Font.Name = "Roboto";
-            //rng.Style.Font.Size = 11;
-            //rng.Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlDouble;
-            rng.RowHeight = 38;
+            rng.RowHeight = 60; // 38;
             rng.WrapText = true;
             rng.EntireRow.HorizontalAlignment = Excel.XlHAlign.xlHAlignCenter;
-            rng.EntireRow.VerticalAlignment = Excel.XlVAlign.xlVAlignTop;
-            rng = PivotSheet.Range["A" + LastRow];
+            rng.EntireRow.VerticalAlignment = Excel.XlVAlign.xlVAlignCenter;
+            rng.Font.Size = 16;
+            rng.Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.DarkBlue); ;
+
+            rng = PivotSheet.Range["A" + LastRow, "O" + LastRow];
             rng.Select();
             rng.RowHeight = 36;
+            rng.Font.Size = 16;
+
+            rng = PivotSheet.Range["A" + (FirstRow + 1), "O" + (LastRow - 2)];
+            rng.RowHeight = 32;
+            rng.Font.Size = 16;
 
             // Create the table style
             //ListingBook.TableStyles.Add("Attached Report Style");
@@ -314,13 +322,13 @@ namespace ListingBook2016
         {
             if (PivotSheet.PivotTables(1).RowRange.Columns.Count == 3)
             {
-                PivotSheet.Columns["A"].ColumnWidth = 19.5;
+                PivotSheet.Columns["A"].ColumnWidth = 20;
                 PivotSheet.Columns["B"].ColumnWidth = 17;
                 PivotSheet.Columns["C"].ColumnWidth = 18.5;
             }
             else
             {
-                PivotSheet.Columns["A"].ColumnWidth = 19.5;
+                PivotSheet.Columns["A"].ColumnWidth = 20;
                 PivotSheet.Columns["B"].ColumnWidth = 17;
                 PivotSheet.Columns["C"].ColumnWidth = 18.5;
                 PivotSheet.Columns["D"].ColumnWidth = 5;
@@ -328,12 +336,12 @@ namespace ListingBook2016
 
             int FirstCol = PivotSheet.PivotTables(1).ColumnRange.Column;
             int TotalCols = PivotSheet.PivotTables(1).ColumnRange.Columns.Count;
-            PivotSheet.Columns[FirstCol].ColumnWidth = 6;
-            PivotSheet.Columns[++FirstCol].ColumnWidth = 10.6;
+            PivotSheet.Columns[FirstCol].ColumnWidth = 9;
+            PivotSheet.Columns[++FirstCol].ColumnWidth = 17;
             PivotSheet.Columns[++FirstCol].ColumnWidth = 7.5;
-            PivotSheet.Columns[++FirstCol].ColumnWidth = 7.5;
-            PivotSheet.Columns[++FirstCol].ColumnWidth = 7.5;
-            PivotSheet.Columns[++FirstCol].ColumnWidth = 8.8;
+            PivotSheet.Columns[++FirstCol].ColumnWidth = 9;
+            PivotSheet.Columns[++FirstCol].ColumnWidth = 9;
+            PivotSheet.Columns[++FirstCol].ColumnWidth = 12;
             if (this.ReportType.ToString().IndexOf("Detached") < 0)
             {
                 PivotSheet.Columns[++FirstCol].ColumnWidth = 9.5;
@@ -342,9 +350,11 @@ namespace ListingBook2016
             }else
             {
                 PivotSheet.Columns[++FirstCol].ColumnWidth = 9.5;
-                PivotSheet.Columns[++FirstCol].ColumnWidth = 10.6;
-                PivotSheet.Columns[++FirstCol].ColumnWidth = 10.6;
-                PivotSheet.Columns[++FirstCol].ColumnWidth = 7.5;
+                PivotSheet.Columns[++FirstCol].ColumnWidth = 17;
+                PivotSheet.Columns[++FirstCol].ColumnWidth = 17;
+                PivotSheet.Columns[++FirstCol].ColumnWidth = 9;
+                PivotSheet.Columns[++FirstCol].ColumnWidth = 9;
+                PivotSheet.Columns[++FirstCol].ColumnWidth = 11;
             }
         }
 
@@ -356,11 +366,11 @@ namespace ListingBook2016
             //ADD SECTION TITLE
             Excel.Range cell = WS.Range["A" + (FirstRow + 1)];
             cell.Value = Title;
-            cell.Font.Size = 18;
+            cell.Font.Size = 24;
             cell.Font.Color = System.Drawing.Color.Red.ToArgb();
             cell.Font.Bold = true;
             cell.Font.Italic = true;
-            cell.EntireRow.RowHeight = 24;
+            cell.EntireRow.RowHeight = 32;
             //HIDE PAGE GROUP FILTER
             cell = WS.Range["A" + FirstRow];
             cell.EntireRow.Hidden = true;
@@ -506,6 +516,7 @@ namespace ListingBook2016
         private void HideComplexSubTotal(Excel.Worksheet Sheet, string TableName)
         {
             Excel.Range Cell = null;
+            int subTotalCount = 0;
 
             foreach (Excel.Range row in Sheet.PivotTables(TableName).RowRange.Rows)
             {
@@ -516,6 +527,15 @@ namespace ListingBook2016
                     Cell.Value = "SubTotal";
                     Cell.RowHeight *= 1.3;
                     Cell.EntireRow.HorizontalAlignment = Excel.XlHAlign.xlHAlignRight;
+                    subTotalCount++;
+                }
+                if (subTotalCount == 1)
+                {
+                    if (Sheet.Range["A" + row.Row].Value?.IndexOf("Total") > 0 && Sheet.Range["A" + row.Row].Value?.IndexOf("Grand Total") < 0)
+                    {
+                        row.Select();
+                        row.EntireRow.Hidden = true;
+                    }
                 }
                 if (Sheet.Range["B" + row.Row].Value?.IndexOf("Total") > 0)
                 {
