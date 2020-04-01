@@ -60,7 +60,7 @@ namespace ListingBook2016
             ReportCMA cma = new ReportCMA(Globals.ThisAddIn.Application.Worksheets[CMADataSheet], ReportType.CMAAttached, chkBoxLanguage.Checked ? "Chinese" : "English");
             try { cma.Residential(ListingStatus.Sold); } catch (Exception ex) { Debug.Write(ex); };
             try { cma.Residential(ListingStatus.Active); } catch (Exception ex) { Debug.Write(ex); };
-            try { cma.Residential(ListingStatus.OffMarket); } catch (Exception ex) { Debug.Write(ex); };
+            try { cma.Residential(ListingStatus.OffMarket, true); } catch (Exception ex) { Debug.Write(ex); };
         }
         #endregion
 
@@ -84,7 +84,7 @@ namespace ListingBook2016
             ReportCMA cma = new ReportCMA(Globals.ThisAddIn.Application.Worksheets[CMADataSheet], ReportType.CMADetached);
             try { cma.Residential(ListingStatus.Sold); } catch (Exception ex) { Debug.Write(ex); };
             try { cma.Residential(ListingStatus.Active); } catch (Exception ex) { };
-            try { cma.Residential(ListingStatus.OffMarket); } catch (Exception ex) { };
+            try { cma.Residential(ListingStatus.OffMarket, true); } catch (Exception ex) { };
         }
 
 
