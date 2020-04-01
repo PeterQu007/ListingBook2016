@@ -91,7 +91,15 @@ namespace ListingBook2016
             Residential(Status);
             if (AddSumTable)
             {
-                this.AddCMASubjectEvaluation_New(this.PivotSheet);
+                switch (CMAPropertyType)
+                {
+                    case PropertyType.Attached:
+                        this.AddCMASubjectEvaluation_Attached(this.PivotSheet);
+                        break;
+                    case PropertyType.Detached:
+                        this.AddCMASubjectEvaluation_Detached(this.PivotSheet);
+                        break;
+                }
             }
         }
         public void Residential(ListingStatus Status)
@@ -621,7 +629,7 @@ namespace ListingBook2016
         //    cellBox1.Borders[Excel.XlBordersIndex.xlEdgeBottom].LineStyle = Excel.XlLineStyle.xlDouble;
         //}
 
-        public void AddCMASubjectEvaluation_New(Excel.Worksheet pivotSheet)
+        public void AddCMASubjectEvaluation_Detached(Excel.Worksheet pivotSheet)
         {
             if (this.SubjectEvaluationAdded) return;
             this.SubjectEvaluationAdded = true;
@@ -1156,7 +1164,7 @@ namespace ListingBook2016
             cellBox1 = pivotSheet.Range["C4", "D4"];
             cellBox1.Select();
             cellBox1.Merge();
-            cellBox1.Value = this.LandSize;
+            cellBox1.Value = "";
             //Floor Area
             cellBox1 = pivotSheet.Range["E3", "F3"];
             cellBox1.Select();
@@ -1226,11 +1234,11 @@ namespace ListingBook2016
             cellBox1 = pivotSheet.Range["C5", "D5"];
             cellBox1.Select();
             cellBox1.Merge();
-            cellBox1.Value = this.AvgLandPricePerSF;
+            cellBox1.Value = "";
             cellBox1 = pivotSheet.Range["C6", "D6"];
             cellBox1.Select();
             cellBox1.Merge();
-            cellBox1.Value = "=C4*C5";
+            cellBox1.Value = "";
             cellBox1 = pivotSheet.Range["E5", "F5"];
             cellBox1.Select();
             cellBox1.Merge();
@@ -1242,11 +1250,11 @@ namespace ListingBook2016
             cellBox1 = pivotSheet.Range["G5", "H5"];
             cellBox1.Select();
             cellBox1.Merge();
-            cellBox1.Value = "=G4/C4"; //Average Price per SF of BCA Land
+            cellBox1.Value = ""; //Average Price per SF of BCA Land
             cellBox1 = pivotSheet.Range["G6", "L6"];
             cellBox1.Select();
             cellBox1.Merge();
-            cellBox1.Value = "=C6+E6"; //Average Price per SF of BCA Land
+            cellBox1.Value = "=E6"; //Total Value
             cellBox1 = pivotSheet.Range["I5", "J5"];
             cellBox1.Select();
             cellBox1.Merge();
@@ -1285,11 +1293,11 @@ namespace ListingBook2016
             cellBox1 = pivotSheet.Range["C7", "D7"];
             cellBox1.Select();
             cellBox1.Merge();
-            cellBox1.Value = this.HiLandPricePerSF;
+            cellBox1.Value = "";
             cellBox1 = pivotSheet.Range["C8", "D8"];
             cellBox1.Select();
             cellBox1.Merge();
-            cellBox1.Value = "=C4*C7";
+            cellBox1.Value = "";
             cellBox1 = pivotSheet.Range["E7", "F7"];
             cellBox1.Select();
             cellBox1.Merge();
@@ -1301,11 +1309,11 @@ namespace ListingBook2016
             cellBox1 = pivotSheet.Range["G7", "H7"];
             cellBox1.Select();
             cellBox1.Merge();
-            cellBox1.Value = "=G4/C4"; //Average Price per SF of BCA Land
+            cellBox1.Value = ""; //Average Price per SF of BCA Land
             cellBox1 = pivotSheet.Range["G8", "L8"];
             cellBox1.Select();
             cellBox1.Merge();
-            cellBox1.Value = "=C8+E8"; //Average Price per SF of BCA Land
+            cellBox1.Value = "=E8"; //Total Value
             cellBox1 = pivotSheet.Range["I7", "J7"];
             cellBox1.Select();
             cellBox1.Merge();
