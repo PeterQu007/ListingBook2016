@@ -37,6 +37,7 @@ namespace ListingBook2016
         private string PivotTableLocation;
         private char Status;
         protected bool bShowUnitNo;
+        public bool FormatColumnsWidthDone = false;
         protected ReportType ReportType;
         public PivotTableListingStatus(string pvSheetName, int TopPadding, string TableName, ListingStatus Status)
         {
@@ -320,42 +321,50 @@ namespace ListingBook2016
 
         private void FormatColumnWidth()
         {
+            if (FormatColumnsWidthDone)
+            {
+                return;
+            }
             if (PivotSheet.PivotTables(1).RowRange.Columns.Count == 3)
             {
-                PivotSheet.Columns["A"].ColumnWidth = 20;
-                PivotSheet.Columns["B"].ColumnWidth = 17;
-                PivotSheet.Columns["C"].ColumnWidth = 18.5;
+                PivotSheet.Columns["A"].ColumnWidth = 20; //neighborhood
+                PivotSheet.Columns["B"].ColumnWidth = 17; //PlanNumb
+                PivotSheet.Columns["C"].ColumnWidth = 18.5; //Address
             }
             else
             {
-                PivotSheet.Columns["A"].ColumnWidth = 20;
-                PivotSheet.Columns["B"].ColumnWidth = 17;
-                PivotSheet.Columns["C"].ColumnWidth = 18.5;
-                PivotSheet.Columns["D"].ColumnWidth = 5;
+                PivotSheet.Columns["A"].ColumnWidth = 20; //neighborhood
+                PivotSheet.Columns["B"].ColumnWidth = 17; //complex
+                PivotSheet.Columns["C"].ColumnWidth = 18.5; //address
+                PivotSheet.Columns["D"].ColumnWidth = 9; //Unit No
             }
 
             int FirstCol = PivotSheet.PivotTables(1).ColumnRange.Column;
             int TotalCols = PivotSheet.PivotTables(1).ColumnRange.Columns.Count;
-            PivotSheet.Columns[FirstCol].ColumnWidth = 9;
-            PivotSheet.Columns[++FirstCol].ColumnWidth = 17;
-            PivotSheet.Columns[++FirstCol].ColumnWidth = 7.5;
-            PivotSheet.Columns[++FirstCol].ColumnWidth = 9;
-            PivotSheet.Columns[++FirstCol].ColumnWidth = 9;
-            PivotSheet.Columns[++FirstCol].ColumnWidth = 12;
+            PivotSheet.Columns[FirstCol].ColumnWidth = 9; //count
+            PivotSheet.Columns[++FirstCol].ColumnWidth = 17; //Price
+            PivotSheet.Columns[++FirstCol].ColumnWidth = 7.5; //Days on Market
+            PivotSheet.Columns[++FirstCol].ColumnWidth = 9; //Floor Area
+            PivotSheet.Columns[++FirstCol].ColumnWidth = 9; //Price per SF
+            PivotSheet.Columns[++FirstCol].ColumnWidth = 12; //Building Age
             if (this.ReportType.ToString().IndexOf("Detached") < 0)
             {
-                PivotSheet.Columns[++FirstCol].ColumnWidth = 9.5;
-                PivotSheet.Columns[++FirstCol].ColumnWidth = 10.6;
-                PivotSheet.Columns[++FirstCol].ColumnWidth = 7.5;
-            }else
-            {
-                PivotSheet.Columns[++FirstCol].ColumnWidth = 9.5;
-                PivotSheet.Columns[++FirstCol].ColumnWidth = 17;
-                PivotSheet.Columns[++FirstCol].ColumnWidth = 17;
-                PivotSheet.Columns[++FirstCol].ColumnWidth = 9;
-                PivotSheet.Columns[++FirstCol].ColumnWidth = 9;
-                PivotSheet.Columns[++FirstCol].ColumnWidth = 11;
+                PivotSheet.Columns[++FirstCol].ColumnWidth = 11; // Monthly Fee
+                PivotSheet.Columns[++FirstCol].ColumnWidth = 13; // BC Assessment
+                PivotSheet.Columns[++FirstCol].ColumnWidth = 7.5; //chg% to BCA
+                PivotSheet.Columns[++FirstCol].ColumnWidth = 11; //Lot $PSF
+                PivotSheet.Columns[++FirstCol].ColumnWidth = 11; //Improve $PSF
             }
+            else
+            {
+                PivotSheet.Columns[++FirstCol].ColumnWidth = 9.5; //land size
+                PivotSheet.Columns[++FirstCol].ColumnWidth = 17; //Land Assess
+                PivotSheet.Columns[++FirstCol].ColumnWidth = 17; //BC Assess
+                PivotSheet.Columns[++FirstCol].ColumnWidth = 9; //Chg% to BCA
+                PivotSheet.Columns[++FirstCol].ColumnWidth = 11; //Lot $PSF
+                PivotSheet.Columns[++FirstCol].ColumnWidth = 11; //Improve $PSF
+            }
+            FormatColumnsWidthDone = true;
         }
 
         public void AddSectionTitle(Excel.Worksheet WS, string PTName, string Title)

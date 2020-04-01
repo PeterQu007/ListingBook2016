@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -33,6 +34,13 @@ namespace ListingBook2016
         SpecialityPriceChageTop10 = 40,
         SpecialtyActivePriceTop10 = 41,
         SpecialtySoldPriceTop10 = 42
+    }
+
+    public enum PropertyType
+    {
+        Detached =0,
+        Attached =1,
+        Land =2
     }
 
     public static class ListingDataSheet{
@@ -138,6 +146,9 @@ namespace ListingBook2016
     {
 
         public Excel.Worksheet ListingSheet;
+        private bool PropertyTypeValidated = false;
+        private bool DataValidated = false;
+        private bool LotAndImproveUnitPriceAdded = false;
 
         public DataProcessing(Excel.Worksheet ListingSheet)
         {
@@ -146,6 +157,11 @@ namespace ListingBook2016
 
         public bool ValidateData(ReportType rptType)
         {
+            if (DataValidated)
+            {
+                Debug.Write("Data on the ListingSheet has been already validated!");
+                return false;
+            }
             bool bStop = false;
             //Globals.ThisAddIn.Application.ScreenUpdating = false;
             //Globals.ThisAddIn.Application.DisplayAlerts = false;
@@ -160,7 +176,7 @@ namespace ListingBook2016
                 if (rng.Value2 != "Residential Attached")
                 {
                     MessageBox.Show("Wrong Listings for Attached Homes");
-                    return true;
+                    bStop = true;
                 }
             }
 
@@ -190,15 +206,57 @@ namespace ListingBook2016
             Globals.ThisAddIn.Application.StatusBar = bStop? "Check DataSheet RED Highlights" : "Validate Data of Attached Done!";
             //Globals.ThisAddIn.Application.ScreenUpdating = true;
             //Globals.ThisAddIn.Application.DisplayAlerts = true;
+            DataValidated = !bStop;
             return bStop;
         }
 
+        public bool ValidatePropertyType(ReportType rptType, PropertyType propertyType)
+        {
+            if (PropertyTypeValidated)
+            {
+                Debug.Write("Property Type has been already validated!");
+                return false;
+            }
+            bool bStop = false;
+            Globals.ThisAddIn.Application.DisplayStatusBar = true;
+
+            Excel.Range rng = null;
+            rng = this.ListingSheet.Cells[2, ListingDataColNames.Prop_Type];
+            rng.Select();
+
+            if (rptType.ToString().IndexOf("Attached") > 0 && propertyType == PropertyType.Attached)
+            {
+                if (rng.Value2 != "Residential Attached")
+                {
+                    MessageBox.Show("Wrong Listings for Attached Homes");
+                    bStop = true;
+                }
+            }else if (rptType.ToString().IndexOf("Detached") > 0 && propertyType == PropertyType.Detached)
+            {
+                if (rng.Value2 != "Residential Detached")
+                {
+                    MessageBox.Show("Wrong Listings for Detached Homes");
+                    bStop = true;
+                }
+            }else
+            {
+                bStop = true;
+            }
+            PropertyTypeValidated = !bStop;
+
+            return bStop;
+        }
         public bool AddLotAndImproveUnitPrice()
         {
+            bool bAdded = LotAndImproveUnitPriceAdded;
+
+            if (bAdded)
+            {
+                return bAdded;
+            }
             Excel.Range last = ListingSheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell, Type.Missing);
 
             int LastRow = last.Row;
-            bool bAdded = false;
             string ColIndex = ListingDataColNames.LotValuePercentageOfBCA;
 
             Excel.Range TopCell = ListingSheet.Cells[2, ColIndex];
@@ -312,6 +370,8 @@ namespace ListingBook2016
                 }
             }
 
+            bAdded = true;
+            LotAndImproveUnitPriceAdded = bAdded;
             return bAdded;
         }
         public bool ValidateColumnBlankCell(string ColIndex)
