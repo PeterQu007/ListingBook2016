@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
+using MySql.Data;
+using MySql.Data.MySqlClient;
 
 namespace ListingBook2016
 {
@@ -725,6 +727,56 @@ namespace ListingBook2016
             string[] UniqueCities = CityList.ToArray().Distinct().ToArray();
             Array.Sort(UniqueCities, StringComparer.InvariantCulture);
             return UniqueCities;
+        }
+    }
+
+    public class DBConnection
+    {
+        private DBConnection()
+        {
+        }
+
+        private string databaseName = string.Empty;
+        public string DatabaseName
+        {
+            get { return databaseName; }
+            set { databaseName = value; }
+        }
+
+        public string Password { get; set; }
+        private MySqlConnection connection = null;
+        public MySqlConnection Connection
+        {
+            get { return connection; }
+            set { connection = null; }
+        }
+
+        private static DBConnection _instance = null;
+        public static DBConnection Instance()
+        {
+            if (_instance == null)
+                _instance = new DBConnection();
+            return _instance;
+        }
+
+        public bool IsConnect()
+        {
+            if (Connection == null)
+            {
+                if (String.IsNullOrEmpty(databaseName))
+                    return false;
+                string connstring = string.Format("Server=localhost; Port=10003; database={0}; UID=root; password=root", databaseName);
+                connection = new MySqlConnection(connstring);
+                connection.Open();
+            }
+
+            return true;
+        }
+
+        public void Close()
+        {
+            connection.Close();
+            Connection = null;
         }
     }
 }

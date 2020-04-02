@@ -31,6 +31,12 @@ namespace ListingBook2016
         public Excel.Worksheet ListingSheet;
         public Excel.Workbook ListingBook;
         public int ListingDataRows;
+        public decimal MaxSoldPricePerSF_Land;
+        public decimal MaxSoldPricePerSF_Improve;
+        public decimal MaxSoldPricePerSF_Total;
+        public decimal AverageSoldPricePerSF_Land;
+        public decimal AverageSoldPricePerSF_Improve;
+        public decimal AverageSoldPricePerSF_Total;
         private string PivotSheetName;
         private string PivotTableName;
         private int PivotTableTopPaddingRows;
@@ -579,6 +585,7 @@ namespace ListingBook2016
             LastRow = FirstRow + PT.TableRange1.Rows.Count - 4;
             FirstCol = PT.ColumnRange.Column + 1;
             LastCol = PT.ColumnRange.Column + PT.ColumnRange.Columns.Count - 1;
+
             for (long col = FirstCol; col <= LastCol; col++)
             {
                 i = FirstRow;
@@ -595,6 +602,26 @@ namespace ListingBook2016
                             WS.Range[MaxCell].Interior.ColorIndex = 0;
                             WS.Range[MaxCell].Font.Color = System.Drawing.ColorTranslator.ToOle(System.Drawing.Color.Red);
                             WS.Range[MaxCell].Font.Bold = true;
+                            if(col == LastCol && this.Status == (char)ListingStatus.Sold)
+                            {
+                                this.MaxSoldPricePerSF_Improve = WS.Range[MaxCell].Value;
+                                this.AverageSoldPricePerSF_Improve = WS.Cells[LastRow, col].Value;
+                            }
+                            if (col == LastCol - 1 && this.Status == (char)ListingStatus.Sold)
+                            {
+                                this.MaxSoldPricePerSF_Land = WS.Range[MaxCell].Value;
+                                this.AverageSoldPricePerSF_Land = WS.Cells[LastRow, col].Value;
+                            }
+                            if (col == LastCol - 6 && this.Status == (char)ListingStatus.Sold && this.ReportType == ReportType.CMAAttached )
+                            {
+                                this.MaxSoldPricePerSF_Total = WS.Range[MaxCell].Value;
+                                this.AverageSoldPricePerSF_Total = WS.Cells[LastRow , col].Value;
+                            }
+                            if (col == LastCol - 7 && this.Status == (char)ListingStatus.Sold && this.ReportType == ReportType.CMADetached)
+                            {
+                                this.MaxSoldPricePerSF_Total = WS.Range[MaxCell].Value;
+                                this.AverageSoldPricePerSF_Total = WS.Cells[LastRow, col].Value;
+                            }
                         }
                     }
                 }
