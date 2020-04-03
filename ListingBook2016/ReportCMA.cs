@@ -58,7 +58,7 @@ namespace ListingBook2016
             {
                 //suppose col0 and col1 are defined as VARCHAR in the DB
                 Excel.Worksheet SubjectsWorkSheet = null;
-                string query = "select * From pid_cma_subjects Where CMA_Action = 1 AND Subject_Address = '" + Globals.Ribbons.Ribbon1.comboBox1.Text + "'";
+                string query = "select * From pid_cma_subjects Where CMA_Action = 1 AND Concat(IFNULL(Unit_No, ''), '-' , Subject_Address) = '" + Globals.Ribbons.Ribbon1.comboBox1.Text + "'";
                 var cmd = new MySqlCommand(query, dbCon.Connection);
                 var reader = cmd.ExecuteReader();
                 if (Library.SheetExist("Subjects"))
@@ -88,6 +88,7 @@ namespace ListingBook2016
                 SubjectsWorkSheet.Cells[1, 14] = "CMA Action";
                 var i = 2;
 
+                //fetch Subject Property Records and filling to Excel Worksheet "Subjects"
                 while (reader.Read())
                 {
                     SubjectID = reader.IsDBNull(1) ? 0 : reader.GetInt16("ID");

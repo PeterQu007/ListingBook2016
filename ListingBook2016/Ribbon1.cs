@@ -51,9 +51,11 @@ namespace ListingBook2016
                 {
                     SubjectPropertyAdress = reader.IsDBNull(1) ? "" : reader.GetString("Subject_Address");
                     SubjectUnitNo = reader.IsDBNull(2) ? "" : reader.GetString("Unit_No");
+                    //SubjectUnitNo.Replace("#", "");
+                    //SubjectUnitNo += string.IsNullOrEmpty(SubjectUnitNo) ? "" : "-";
                     SubjectPropertyAge = reader.IsDBNull(3) ? 0 : reader.GetInt16("Age");
                     RibbonDropDownItem ddItem1 = Globals.Factory.GetRibbonFactory().CreateRibbonDropDownItem();
-                    ddItem1.Label = SubjectPropertyAdress;
+                    ddItem1.Label = SubjectUnitNo + "-" + SubjectPropertyAdress; //add unit no to address
                     comboBox1.Items.Add(ddItem1);
                 }
                 reader.Close();
@@ -208,11 +210,14 @@ namespace ListingBook2016
                 SubjectsWorkSheet.Cells[1, 14] = "CMA Action";
                 var i = 2;
 
+                comboBox1.Items.Clear(); //Prepare reload the comboBox
                 while (reader.Read())
                 {
                     SubjectID= reader.IsDBNull(1) ? 0 : reader.GetInt16("ID");
                     SubjectPropertyAdress = reader.IsDBNull(1) ? "" : reader.GetString("Subject_Address");
                     SubjectUnitNo = reader.IsDBNull(2) ? "" : reader.GetString("Unit_No");
+                    //SubjectUnitNo.Replace("#", "");
+                    //SubjectUnitNo += string.IsNullOrEmpty(SubjectUnitNo) ? "" : "-";
                     SubjectPropertyAge = reader.IsDBNull(3) ? 0 : reader.GetInt16("Age");
                     LandSize = reader.IsDBNull(4) ? 0 : reader.GetInt16("Land_Size");
                     FloorArea = reader.IsDBNull(5) ? 0 : reader.GetInt16("Floor_Area");
@@ -239,6 +244,10 @@ namespace ListingBook2016
                     SubjectsWorkSheet.Cells[i, 12] = City;
                     SubjectsWorkSheet.Cells[i, 13] = Neighborhood;
                     SubjectsWorkSheet.Cells[i, 14] = CMAAction;
+
+                    RibbonDropDownItem ddItem1 = Globals.Factory.GetRibbonFactory().CreateRibbonDropDownItem();
+                    ddItem1.Label = SubjectUnitNo + "-" + SubjectPropertyAdress;
+                    Globals.Ribbons.Ribbon1.comboBox1.Items.Add(ddItem1);
 
                     i++;
                 }
