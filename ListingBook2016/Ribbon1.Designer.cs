@@ -66,6 +66,11 @@
             this.button3 = this.Factory.CreateRibbonButton();
             this.button6 = this.Factory.CreateRibbonButton();
             this.button7 = this.Factory.CreateRibbonButton();
+            this.editBoxClient = this.Factory.CreateRibbonEditBox();
+            this.checkBoxSumTable = this.Factory.CreateRibbonCheckBox();
+            this.Options2 = this.Factory.CreateRibbonGroup();
+            this.checkBox1 = this.Factory.CreateRibbonCheckBox();
+            this.buttonLoadSubject = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group8.SuspendLayout();
             this.group9.SuspendLayout();
@@ -76,6 +81,7 @@
             this.group2.SuspendLayout();
             this.group1.SuspendLayout();
             this.group5.SuspendLayout();
+            this.Options2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tab1
@@ -83,6 +89,7 @@
             this.tab1.ControlId.ControlIdType = Microsoft.Office.Tools.Ribbon.RibbonControlIdType.Office;
             this.tab1.Groups.Add(this.group8);
             this.tab1.Groups.Add(this.group9);
+            this.tab1.Groups.Add(this.Options2);
             this.tab1.Groups.Add(this.group4);
             this.tab1.Groups.Add(this.group6);
             this.tab1.Groups.Add(this.group7);
@@ -96,6 +103,8 @@
             // group8
             // 
             this.group8.Items.Add(this.comboBox1);
+            this.group8.Items.Add(this.editBoxClient);
+            this.group8.Items.Add(this.buttonLoadSubject);
             this.group8.Label = "Subject Property";
             this.group8.Name = "group8";
             // 
@@ -108,11 +117,13 @@
             this.comboBox1.Label = "Address";
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Text = null;
+            this.comboBox1.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.comboBox1_TextChanged);
             // 
             // group9
             // 
             this.group9.Items.Add(this.chkBoxNewHomes);
             this.group9.Items.Add(this.chkBoxLanguage);
+            this.group9.Items.Add(this.checkBoxSumTable);
             this.group9.Label = "Options";
             this.group9.Name = "group9";
             // 
@@ -273,6 +284,33 @@
             this.button7.Label = "Price Sold Top10";
             this.button7.Name = "button7";
             // 
+            // editBoxClient
+            // 
+            this.editBoxClient.Label = "Client:";
+            this.editBoxClient.Name = "editBoxClient";
+            // 
+            // checkBoxSumTable
+            // 
+            this.checkBoxSumTable.Label = "Sum Table";
+            this.checkBoxSumTable.Name = "checkBoxSumTable";
+            // 
+            // Options2
+            // 
+            this.Options2.Items.Add(this.checkBox1);
+            this.Options2.Label = "Options";
+            this.Options2.Name = "Options2";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.Label = "CorCoe";
+            this.checkBox1.Name = "checkBox1";
+            // 
+            // buttonLoadSubject
+            // 
+            this.buttonLoadSubject.Label = "LoadSubjects";
+            this.buttonLoadSubject.Name = "buttonLoadSubject";
+            this.buttonLoadSubject.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonLoadSubject_Click);
+            // 
             // Ribbon1
             // 
             this.Name = "Ribbon1";
@@ -299,6 +337,8 @@
             this.group1.PerformLayout();
             this.group5.ResumeLayout(false);
             this.group5.PerformLayout();
+            this.Options2.ResumeLayout(false);
+            this.Options2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -335,6 +375,11 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox chkBoxNewHomes;
         internal Microsoft.Office.Tools.Ribbon.RibbonComboBox comboBox1;
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup group9;
+        internal Microsoft.Office.Tools.Ribbon.RibbonEditBox editBoxClient;
+        internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox checkBoxSumTable;
+        internal Microsoft.Office.Tools.Ribbon.RibbonGroup Options2;
+        internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox checkBox1;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonLoadSubject;
     }
 
     partial class ThisRibbonCollection
