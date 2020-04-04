@@ -531,6 +531,7 @@ namespace ListingBook2016
         private void HideComplexSubTotal(Excel.Worksheet Sheet, string TableName)
         {
             Excel.Range Cell = null;
+            Excel.Range CountCell = null;
             int subTotalCount = 0;
 
             foreach (Excel.Range row in Sheet.PivotTables(TableName).RowRange.Rows)
@@ -540,18 +541,30 @@ namespace ListingBook2016
                     Cell = Sheet.Range["A" + row.Row];
                     Cell.Select();
                     Cell.Value = "SubTotal";
-                    Cell.RowHeight *= 1.3;
+                    Cell.RowHeight = 19.5;
+                    Cell.EntireRow.Font.Size = 11;
                     Cell.EntireRow.HorizontalAlignment = Excel.XlHAlign.xlHAlignRight;
-                    subTotalCount++;
-                }
-                if (subTotalCount == 1)
-                {
-                    if (Sheet.Range["A" + row.Row].Value?.IndexOf("Total") > 0 && Sheet.Range["A" + row.Row].Value?.IndexOf("Grand Total") < 0)
+
+                    CountCell = Sheet.Range["D" + row.Row];
+                    
+                    //subTotalCount++;
+                    if(CountCell.Value == 1)
                     {
                         row.Select();
                         row.EntireRow.Hidden = true;
+                        subTotalCount = 0;
                     }
                 }
+                subTotalCount++;
+                //if (subTotalCount == 1)
+                //{
+                //    if (Sheet.Range["A" + row.Row].Value?.IndexOf("Total") > 0 && Sheet.Range["A" + row.Row].Value?.IndexOf("Grand Total") < 0)
+                //    {
+                //        row.Select();
+                //        row.EntireRow.Hidden = true;
+                //        subTotalCount = 0;
+                //    }
+                //}
                 if (Sheet.Range["B" + row.Row].Value?.IndexOf("Total") > 0)
                 {
                     row.Select();
@@ -605,22 +618,22 @@ namespace ListingBook2016
                             if(col == LastCol && this.Status == (char)ListingStatus.Sold)
                             {
                                 this.MaxSoldPricePerSF_Improve = WS.Range[MaxCell].Value;
-                                this.AverageSoldPricePerSF_Improve = WS.Cells[LastRow, col].Value;
+                                this.AverageSoldPricePerSF_Improve = WS.Cells[LastRow+1, col].Value;
                             }
                             if (col == LastCol - 1 && this.Status == (char)ListingStatus.Sold)
                             {
                                 this.MaxSoldPricePerSF_Land = WS.Range[MaxCell].Value;
-                                this.AverageSoldPricePerSF_Land = WS.Cells[LastRow, col].Value;
+                                this.AverageSoldPricePerSF_Land = WS.Cells[LastRow+1, col].Value;
                             }
                             if (col == LastCol - 6 && this.Status == (char)ListingStatus.Sold && this.ReportType == ReportType.CMAAttached )
                             {
                                 this.MaxSoldPricePerSF_Total = WS.Range[MaxCell].Value;
-                                this.AverageSoldPricePerSF_Total = WS.Cells[LastRow , col].Value;
+                                this.AverageSoldPricePerSF_Total = WS.Cells[LastRow+1 , col].Value;
                             }
                             if (col == LastCol - 7 && this.Status == (char)ListingStatus.Sold && this.ReportType == ReportType.CMADetached)
                             {
                                 this.MaxSoldPricePerSF_Total = WS.Range[MaxCell].Value;
-                                this.AverageSoldPricePerSF_Total = WS.Cells[LastRow, col].Value;
+                                this.AverageSoldPricePerSF_Total = WS.Cells[LastRow+1, col].Value;
                             }
                         }
                     }

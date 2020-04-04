@@ -39,9 +39,14 @@
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group8 = this.Factory.CreateRibbonGroup();
             this.comboBox1 = this.Factory.CreateRibbonComboBox();
+            this.editBoxClient = this.Factory.CreateRibbonEditBox();
+            this.buttonLoadSubject = this.Factory.CreateRibbonButton();
             this.group9 = this.Factory.CreateRibbonGroup();
             this.chkBoxNewHomes = this.Factory.CreateRibbonCheckBox();
             this.chkBoxLanguage = this.Factory.CreateRibbonCheckBox();
+            this.checkBoxSumTable = this.Factory.CreateRibbonCheckBox();
+            this.Options2 = this.Factory.CreateRibbonGroup();
+            this.checkBox1 = this.Factory.CreateRibbonCheckBox();
             this.group4 = this.Factory.CreateRibbonGroup();
             this.btnDetachedSoldCMA = this.Factory.CreateRibbonButton();
             this.btnDetachedActiveCMA = this.Factory.CreateRibbonButton();
@@ -66,14 +71,10 @@
             this.button3 = this.Factory.CreateRibbonButton();
             this.button6 = this.Factory.CreateRibbonButton();
             this.button7 = this.Factory.CreateRibbonButton();
-            this.editBoxClient = this.Factory.CreateRibbonEditBox();
-            this.checkBoxSumTable = this.Factory.CreateRibbonCheckBox();
-            this.Options2 = this.Factory.CreateRibbonGroup();
-            this.checkBox1 = this.Factory.CreateRibbonCheckBox();
-            this.buttonLoadSubject = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group8.SuspendLayout();
             this.group9.SuspendLayout();
+            this.Options2.SuspendLayout();
             this.group4.SuspendLayout();
             this.group6.SuspendLayout();
             this.group7.SuspendLayout();
@@ -81,7 +82,6 @@
             this.group2.SuspendLayout();
             this.group1.SuspendLayout();
             this.group5.SuspendLayout();
-            this.Options2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tab1
@@ -105,7 +105,7 @@
             this.group8.Items.Add(this.comboBox1);
             this.group8.Items.Add(this.editBoxClient);
             this.group8.Items.Add(this.buttonLoadSubject);
-            this.group8.Label = "Subject Property";
+            this.group8.Label = ".               Subject Property               .";
             this.group8.Name = "group8";
             // 
             // comboBox1
@@ -118,6 +118,18 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Text = null;
             this.comboBox1.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.comboBox1_TextChanged);
+            // 
+            // editBoxClient
+            // 
+            this.editBoxClient.Label = "Client:";
+            this.editBoxClient.Name = "editBoxClient";
+            this.editBoxClient.Text = null;
+            // 
+            // buttonLoadSubject
+            // 
+            this.buttonLoadSubject.Label = "Load Subjects";
+            this.buttonLoadSubject.Name = "buttonLoadSubject";
+            this.buttonLoadSubject.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonLoadSubject_Click);
             // 
             // group9
             // 
@@ -136,6 +148,22 @@
             // 
             this.chkBoxLanguage.Label = "Chinese";
             this.chkBoxLanguage.Name = "chkBoxLanguage";
+            // 
+            // checkBoxSumTable
+            // 
+            this.checkBoxSumTable.Label = "Sum Table";
+            this.checkBoxSumTable.Name = "checkBoxSumTable";
+            // 
+            // Options2
+            // 
+            this.Options2.Items.Add(this.checkBox1);
+            this.Options2.Label = "Options";
+            this.Options2.Name = "Options2";
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.Label = "CorCoe";
+            this.checkBox1.Name = "checkBox1";
             // 
             // group4
             // 
@@ -284,33 +312,6 @@
             this.button7.Label = "Price Sold Top10";
             this.button7.Name = "button7";
             // 
-            // editBoxClient
-            // 
-            this.editBoxClient.Label = "Client:";
-            this.editBoxClient.Name = "editBoxClient";
-            // 
-            // checkBoxSumTable
-            // 
-            this.checkBoxSumTable.Label = "Sum Table";
-            this.checkBoxSumTable.Name = "checkBoxSumTable";
-            // 
-            // Options2
-            // 
-            this.Options2.Items.Add(this.checkBox1);
-            this.Options2.Label = "Options";
-            this.Options2.Name = "Options2";
-            // 
-            // checkBox1
-            // 
-            this.checkBox1.Label = "CorCoe";
-            this.checkBox1.Name = "checkBox1";
-            // 
-            // buttonLoadSubject
-            // 
-            this.buttonLoadSubject.Label = "LoadSubjects";
-            this.buttonLoadSubject.Name = "buttonLoadSubject";
-            this.buttonLoadSubject.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonLoadSubject_Click);
-            // 
             // Ribbon1
             // 
             this.Name = "Ribbon1";
@@ -323,6 +324,8 @@
             this.group8.PerformLayout();
             this.group9.ResumeLayout(false);
             this.group9.PerformLayout();
+            this.Options2.ResumeLayout(false);
+            this.Options2.PerformLayout();
             this.group4.ResumeLayout(false);
             this.group4.PerformLayout();
             this.group6.ResumeLayout(false);
@@ -337,8 +340,6 @@
             this.group1.PerformLayout();
             this.group5.ResumeLayout(false);
             this.group5.PerformLayout();
-            this.Options2.ResumeLayout(false);
-            this.Options2.PerformLayout();
             this.ResumeLayout(false);
 
         }
