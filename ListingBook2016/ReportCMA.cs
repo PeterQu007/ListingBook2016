@@ -53,12 +53,12 @@ namespace ListingBook2016
         public ReportCMA(Excel.Worksheet ws, ReportType cmaType, string cmaLang = "English")
         {
             dbCon = DBConnection.Instance();
-            dbCon.DatabaseName = "local";
+            dbCon.DatabaseName = "pidrealty4";
             if (dbCon.IsConnect())
             {
                 //suppose col0 and col1 are defined as VARCHAR in the DB
                 Excel.Worksheet SubjectsWorkSheet = null;
-                string query = "select * From pid_cma_subjects Where CMA_Action = 1 AND Concat(IFNULL(Unit_No, ''), '-' , Subject_Address) = '" + Globals.Ribbons.Ribbon1.comboBox1.Text + "'";
+                string query = "select * From wp_pid_cma_subjects Where CMA_Action = 1 AND Concat(IFNULL(Unit_No, ''), '-' , Subject_Address) = '" + Globals.Ribbons.Ribbon1.comboBox1.Text + "'";
                 var cmd = new MySqlCommand(query, dbCon.Connection);
                 var reader = cmd.ExecuteReader();
                 if (Library.SheetExist("Subjects"))

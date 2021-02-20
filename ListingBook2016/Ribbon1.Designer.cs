@@ -38,9 +38,11 @@
             Microsoft.Office.Tools.Ribbon.RibbonDropDownItem ribbonDropDownItemImpl2 = this.Factory.CreateRibbonDropDownItem();
             this.tab1 = this.Factory.CreateRibbonTab();
             this.group8 = this.Factory.CreateRibbonGroup();
+            this.box1 = this.Factory.CreateRibbonBox();
+            this.button4 = this.Factory.CreateRibbonButton();
+            this.buttonLoadSubject = this.Factory.CreateRibbonButton();
             this.comboBox1 = this.Factory.CreateRibbonComboBox();
             this.editBoxClient = this.Factory.CreateRibbonEditBox();
-            this.buttonLoadSubject = this.Factory.CreateRibbonButton();
             this.group9 = this.Factory.CreateRibbonGroup();
             this.chkBoxNewHomes = this.Factory.CreateRibbonCheckBox();
             this.chkBoxLanguage = this.Factory.CreateRibbonCheckBox();
@@ -73,6 +75,7 @@
             this.button7 = this.Factory.CreateRibbonButton();
             this.tab1.SuspendLayout();
             this.group8.SuspendLayout();
+            this.box1.SuspendLayout();
             this.group9.SuspendLayout();
             this.Options2.SuspendLayout();
             this.group4.SuspendLayout();
@@ -102,11 +105,29 @@
             // 
             // group8
             // 
+            this.group8.Items.Add(this.box1);
             this.group8.Items.Add(this.comboBox1);
             this.group8.Items.Add(this.editBoxClient);
-            this.group8.Items.Add(this.buttonLoadSubject);
             this.group8.Label = ".               Subject Property               .";
             this.group8.Name = "group8";
+            // 
+            // box1
+            // 
+            this.box1.Items.Add(this.button4);
+            this.box1.Items.Add(this.buttonLoadSubject);
+            this.box1.Name = "box1";
+            // 
+            // button4
+            // 
+            this.button4.Label = "ReConnect  To MySQL Database";
+            this.button4.Name = "button4";
+            this.button4.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.button4_Click);
+            // 
+            // buttonLoadSubject
+            // 
+            this.buttonLoadSubject.Label = "|    Load Subjects";
+            this.buttonLoadSubject.Name = "buttonLoadSubject";
+            this.buttonLoadSubject.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonLoadSubject_Click);
             // 
             // comboBox1
             // 
@@ -114,8 +135,9 @@
             ribbonDropDownItemImpl2.Label = "1785 137A ST";
             this.comboBox1.Items.Add(ribbonDropDownItemImpl1);
             this.comboBox1.Items.Add(ribbonDropDownItemImpl2);
-            this.comboBox1.Label = "Address";
+            this.comboBox1.Label = "Addr";
             this.comboBox1.Name = "comboBox1";
+            this.comboBox1.SizeString = "700000000000000000000000000000000";
             this.comboBox1.Text = null;
             this.comboBox1.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.comboBox1_TextChanged);
             // 
@@ -123,13 +145,8 @@
             // 
             this.editBoxClient.Label = "Client:";
             this.editBoxClient.Name = "editBoxClient";
+            this.editBoxClient.SizeString = "700000000000000000000000000000000000";
             this.editBoxClient.Text = null;
-            // 
-            // buttonLoadSubject
-            // 
-            this.buttonLoadSubject.Label = "Load Subjects";
-            this.buttonLoadSubject.Name = "buttonLoadSubject";
-            this.buttonLoadSubject.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.buttonLoadSubject_Click);
             // 
             // group9
             // 
@@ -322,6 +339,8 @@
             this.tab1.PerformLayout();
             this.group8.ResumeLayout(false);
             this.group8.PerformLayout();
+            this.box1.ResumeLayout(false);
+            this.box1.PerformLayout();
             this.group9.ResumeLayout(false);
             this.group9.PerformLayout();
             this.Options2.ResumeLayout(false);
@@ -381,6 +400,8 @@
         internal Microsoft.Office.Tools.Ribbon.RibbonGroup Options2;
         internal Microsoft.Office.Tools.Ribbon.RibbonCheckBox checkBox1;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton buttonLoadSubject;
+        internal Microsoft.Office.Tools.Ribbon.RibbonButton button4;
+        internal Microsoft.Office.Tools.Ribbon.RibbonBox box1;
     }
 
     partial class ThisRibbonCollection

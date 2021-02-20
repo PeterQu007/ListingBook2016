@@ -73,11 +73,12 @@ namespace ListingBook2016
         //You must Add your Control here
         private void AddTpSqlEdit()
         {
-            _tpSqlEdit = new SQLEdit();
-            TpSqlEditCustomTaskPane = CustomTaskPanes.Add(_tpSqlEdit, "SQL Editor");
-            TpSqlEditCustomTaskPane.DockPosition = Office.MsoCTPDockPosition.msoCTPDockPositionBottom;
-            //Show TaskPane
-            TpSqlEditCustomTaskPane.Visible = true;
+            // DISABLE SQL TASK PANE ON AUGUST 15 2020 DUE TO RARELY USE OF THE FEATURE
+            //_tpSqlEdit = new SQLEdit();
+            //TpSqlEditCustomTaskPane = CustomTaskPanes.Add(_tpSqlEdit, "SQL Editor");
+            //TpSqlEditCustomTaskPane.DockPosition = Office.MsoCTPDockPosition.msoCTPDockPositionBottom;
+            ////Show TaskPane
+            //TpSqlEditCustomTaskPane.Visible = true;
         }
 
 

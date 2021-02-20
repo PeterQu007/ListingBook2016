@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using Excel = Microsoft.Office.Interop.Excel;
 using MySql.Data;
 using MySql.Data.MySqlClient;
+using System.Linq.Expressions;
 
 namespace ListingBook2016
 {
@@ -744,6 +745,7 @@ namespace ListingBook2016
         }
 
         public string Password { get; set; }
+        public string ConnError { get; set; }
         private MySqlConnection connection = null;
         public MySqlConnection Connection
         {
@@ -765,12 +767,26 @@ namespace ListingBook2016
             {
                 if (String.IsNullOrEmpty(databaseName))
                     return false;
-                string connstring = string.Format("Server=localhost; Port=10003; database={0}; UID=root; password=root", databaseName);
+                string connstring = string.Format("Server=localhost; Port=3306; database={0}; UID=root;", databaseName);
                 connection = new MySqlConnection(connstring);
-                connection.Open();
+                try
+                {
+                    connection.Open();
+                    this.ConnError = "";
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("MySQL Database Connection Error");
+                    Connection = null;
+                    this.ConnError = "Cannot Open MySQL Connection";
+                    return false;
+                }
             }
-
-            return true;
+            else
+            {
+                return true;
+            }
         }
 
         public void Close()

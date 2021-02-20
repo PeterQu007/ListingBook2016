@@ -38,13 +38,13 @@ namespace ListingBook2016
             CMADataSheet = ListingDataSheet.MLSHelperExport;
             PublicReportDataSheet = ListingDataSheet.ParagonExport;
             dbCon = DBConnection.Instance();
-            dbCon.DatabaseName = "local";
+            dbCon.DatabaseName = "pidrealty4";
             if (dbCon.IsConnect())
             {
                 //suppose col0 and col1 are defined as VARCHAR in the DB
                 comboBox1.Items.Clear();
 
-                string query = "select * From pid_cma_subjects Where CMA_Action = 1";
+                string query = "select * From wp_pid_cma_subjects Where CMA_Action = 1";
                 var cmd = new MySqlCommand(query, dbCon.Connection);
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -176,11 +176,16 @@ namespace ListingBook2016
         private void buttonLoadSubject_Click(object sender, RibbonControlEventArgs e)
         {
             //dbCon
+            if ( dbCon.ConnError != "")
+            {
+                MessageBox.Show(dbCon.ConnError);
+                return;
+            }
             if (dbCon.IsConnect())
             {
                 //suppose col0 and col1 are defined as VARCHAR in the DB
                 Excel.Worksheet SubjectsWorkSheet = null;
-                string query = "select * From pid_cma_subjects Where CMA_Action = 1";
+                string query = "select * From wp_pid_cma_subjects Where CMA_Action = 1";
                 var cmd = new MySqlCommand(query, dbCon.Connection);
                 var reader = cmd.ExecuteReader();
                 if (Library.SheetExist("Subjects"))
@@ -254,6 +259,10 @@ namespace ListingBook2016
                 reader.Close();
                 dbCon.Close();
             }
+            else
+            {
+                MessageBox.Show("MySQL Database Could not be connected!");
+            }
 
             //sql query
 
@@ -267,6 +276,32 @@ namespace ListingBook2016
         private void comboBox1_TextChanged(object sender, RibbonControlEventArgs e)
         {
             Debug.Write("TEST");
+        }
+
+        private void button4_Click(object sender, RibbonControlEventArgs e)
+        {
+            if (dbCon.IsConnect())
+            {
+                //suppose col0 and col1 are defined as VARCHAR in the DB
+                comboBox1.Items.Clear();
+
+                string query = "select * From wp_pid_cma_subjects Where CMA_Action = 1";
+                var cmd = new MySqlCommand(query, dbCon.Connection);
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    SubjectPropertyAdress = reader.IsDBNull(1) ? "" : reader.GetString("Subject_Address");
+                    SubjectUnitNo = reader.IsDBNull(2) ? "" : reader.GetString("Unit_No");
+                    //SubjectUnitNo.Replace("#", "");
+                    //SubjectUnitNo += string.IsNullOrEmpty(SubjectUnitNo) ? "" : "-";
+                    SubjectPropertyAge = reader.IsDBNull(3) ? 0 : reader.GetInt16("Age");
+                    RibbonDropDownItem ddItem1 = Globals.Factory.GetRibbonFactory().CreateRibbonDropDownItem();
+                    ddItem1.Label = SubjectUnitNo + "-" + SubjectPropertyAdress; //add unit no to address
+                    comboBox1.Items.Add(ddItem1);
+                }
+                reader.Close();
+                dbCon.Close();
+            }
         }
     }
 }
