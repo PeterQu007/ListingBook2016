@@ -53,7 +53,7 @@ namespace ListingBook2016
         public ReportCMA(Excel.Worksheet ws, ReportType cmaType, string cmaLang = "English")
         {
             dbCon = DBConnection.Instance();
-            dbCon.DatabaseName = "pidrealty4";
+            dbCon.DatabaseName = "pidrealty4"; //update database name to pidrealty4
             if (dbCon.IsConnect())
             {
                 //suppose col0 and col1 are defined as VARCHAR in the DB
